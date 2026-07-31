@@ -1,0 +1,6 @@
+CompileFlags:
+  Compiler: mips64r5900el-ps2-elf-gcc
+  Remove:
+    - -G*
+    - -gz
+    - -m*
