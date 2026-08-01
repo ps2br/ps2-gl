@@ -1,0 +1,8 @@
+.build
+.cache
+ps2iso/
+compile_commands.json
+*.o
+*.elf
+*.iso
+*.ISO
