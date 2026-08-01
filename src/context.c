@@ -38,14 +38,17 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.Tex.CurrentTexCoords[0] = 0.f;
     gl.Tex.CurrentTexCoords[1] = 0.f;
 
+    /** TODO: implement all the OpenGL Capabilities */
     gl.Caps.Blend = 0;
     gl.Caps.CullFace = 0;
     gl.Caps.DepthTest = 0;
     gl.Caps.Texture2D = 0;
 
+    /** Initiliaze @dmaKit and @dmaKit_chan */
     dmaKit_init (D_CTRL_RELE_OFF, D_CTRL_MFD_OFF, D_CTRL_STS_UNSPEC,
                  D_CTRL_STD_OFF, D_CTRL_RCYC_8, 1 << DMA_CHANNEL_GIF);
     dmaKit_chan_init (DMA_CHANNEL_GIF);
+
     gl.Gs->PSM = GS_PSM_CT32;
     gl.Gs->PSMZ = GS_PSMZ_16S;
 }
@@ -53,4 +56,6 @@ PS2_GLInit (GSGLOBAL *gs)
 void
 PS2_GLShutdown (void)
 {
+    /** actually there's nothing to clean yet */
+    gl.Gs = 0;
 }

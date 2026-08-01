@@ -10,6 +10,7 @@ glNormal3f (GLfloat nx, GLfloat ny, GLfloat nz)
     gl.Draw.CurrentNormal[2] = nz;
 }
 
+/** TODO: implement all the OpenGL Capabilities */
 void
 glEnable (GLenum cap)
 {
@@ -30,6 +31,7 @@ glEnable (GLenum cap)
     }
 }
 
+/** TODO: implement all the OpenGL Capabilities */
 void
 glDisable (GLenum cap)
 {

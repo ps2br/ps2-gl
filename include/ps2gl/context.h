@@ -14,6 +14,8 @@ typedef struct ps2_gl_capabilities_t
     GLboolean Blend;
     GLboolean CullFace;
     GLboolean Texture2D;
+
+    /** TODO: implement all the OpenGL Capabilities */
 } PS2_GLCapabilities;
 
 typedef struct ps2_gl_context_t
@@ -33,7 +35,13 @@ typedef struct ps2_gl_context_t
 
 extern PS2_GLContext gl;
 
-void PS2_GLInit (GSGLOBAL *);
-void PS2_GLShutdown (void);
+/**
+ * Initilazes the GL State.
+ * this function MUST be called after @gsKit_init_global.
+ * this function initialzes @dmaKit and @dmaKit_chan.
+ * Every call to @PS2_GLInit should have it PS2_GLShutdown at end of usage.
+ */
+extern void PS2_GLInit (GSGLOBAL *);
+extern void PS2_GLShutdown (void);
 
 #endif
