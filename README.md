@@ -3,6 +3,10 @@
   It can be confused with [ps2dev/ps2gl](https://github.com/ps2dev/ps2gl)  
   But it's different projects with same purpose.
 
+# Our Focus
+  We're focusing in implementing first the function required by RayLib  
+  it doesn't means that we won't implement ALL opengl 1.1 subset, but it's not the focus.
+
 # TODO
     - [X] glClear
     - [X] glClearColor
