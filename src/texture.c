@@ -13,7 +13,7 @@
 void
 glGenTextures (GLsizei n, GLuint *textures)
 {
-    for (int i = 0; i < n; i++)
+    for (GLsizei i = 0; i < n; i++)
     {
         for (int id = 1; id < PS2_TEXTURES_MAX; id++)
         {
@@ -24,6 +24,26 @@ glGenTextures (GLsizei n, GLuint *textures)
                 break;
             }
         }
+    }
+}
+
+void
+glDeleteTextures (GLsizei n, const GLuint *textures)
+{
+    for (GLsizei i = 0; i < n; i++)
+    {
+        GLuint id = textures[i];
+        if (id == 0)
+            continue;
+
+        if (id >= PS2_TEXTURES_MAX)
+            continue;
+
+        PS2_Texture *tex = &gl.Tex.Textures[id];
+        free (tex->GTexture.Mem); /** delete from RAM */
+        tex->Used = 0;
+        if (gl.Tex.BoundTexture == id)
+            gl.Tex.BoundTexture = 0;
     }
 }
 
@@ -67,7 +87,7 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
     gtex->Mem = memalign (128, tex_size);
 
     if (type == GL_UNSIGNED_BYTE)
-        memcpy(gtex->Mem, pixels, tex_size);
+        memcpy (gtex->Mem, pixels, tex_size);
 
     gsKit_texture_finish (gl.Gs, gtex);
 }
@@ -103,4 +123,14 @@ glTexCoord2f (GLfloat u, GLfloat v)
 {
     gl.Tex.CurrentTexCoords[0] = u;
     gl.Tex.CurrentTexCoords[1] = v;
+}
+
+void
+glTexCoordPointer (GLint size, GLenum type, GLsizei stride,
+                   const GLvoid *pointer)
+{
+    gl.Tex.CurrentTexCoordsArray.Size = size;
+    gl.Tex.CurrentTexCoordsArray.Type = type;
+    gl.Tex.CurrentTexCoordsArray.Stride = stride;
+    gl.Tex.CurrentTexCoordsArray.Pointer = pointer;
 }

@@ -39,9 +39,6 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.Tex.CurrentTexCoords[1] = 0.f;
 
     /** TODO: implement all the OpenGL Capabilities */
-    gl.Caps.Blend = 0;
-    gl.Caps.CullFace = 0;
-    gl.Caps.DepthTest = 0;
     gl.Caps.Texture2D = 0;
 
     /** Initiliaze @dmaKit and @dmaKit_chan */

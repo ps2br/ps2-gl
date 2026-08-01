@@ -26,7 +26,6 @@
     - [X] glVertex3f
 
     - [X] glNormal3f
-    - [X] glTexCoord2f
 
     - [X] glColor3f
     - [X] glColor4f
@@ -34,11 +33,9 @@
 
     - [X] glEnable
     - [X] glDisable
-    - [X] glBindTexture
-    - [X] glTexParameteri
+
     - [ ] glPolygonMode
     - [ ] glGetFloatv
-    - [ ] glDeleteTextures
     - [ ] glReadPixels
 
     - [ ] glDrawArrays
@@ -49,7 +46,6 @@
     - [ ] glNormalPointer
     - [ ] glColorPointer
     - [ ] glVertexPointer
-    - [ ] glTexCoordPointer
 
     - [ ] glDepthFunc
     - [ ] glDepthMask
@@ -61,8 +57,13 @@
     - [ ] glHint
     - [ ] glShadeModel
     - [ ] glClearDepth
-
-    - [X] glGenTextures
     - [ ] glPixelStorei
+    
+    - [X] glGenTextures
     - [X] glTexImage2D
+    - [X] glTexParameteri
+    - [X] glTexCoord2f
+    - [X] glBindTexture
+    - [X] glTexCoordPointer
+    - [X] glDeleteTextures
     - [ ] glTexSubImage2D

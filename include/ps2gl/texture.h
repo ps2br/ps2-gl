@@ -22,8 +22,10 @@ typedef struct ps2_texture_context_t
 {
     PS2_Texture Textures[PS2_TEXTURES_MAX];
 
-    PS2_2DCoords CurrentTexCoords;
+    PS2_2DCoords CurrentTexCoords; // for immediate mode
     GLuint BoundTexture;
+
+    PS2_GLArray CurrentTexCoordsArray;
 } PS2_TextureContext;
 
 #endif
