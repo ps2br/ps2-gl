@@ -4,9 +4,11 @@
 #include <gsCore.h>
 #include <gsInit.h>
 #include <gsTexture.h>
+#include <gsToolkit.h>
+#include <malloc.h>
+#include <tamtypes.h>
 
 #include "ps2gl/context.h"
-#include "tamtypes.h"
 
 void
 glGenTextures (GLsizei n, GLuint *textures)
@@ -34,6 +36,8 @@ glBindTexture (GLenum target, GLuint texture)
     gl.Tex.BoundTexture = texture;
 }
 
+extern int gsKit_texture_finish (GSGLOBAL *gsGlobal, GSTEXTURE *Texture);
+
 void
 glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
               GLsizei height, GLint border, GLenum format, GLenum type,
@@ -50,24 +54,22 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
     GSTEXTURE *gtex = &tex->GTexture;
     gtex->Width = width;
     gtex->Height = height;
-    gtex->PSM = GS_PSM_CT32;
+
+    if (format == GL_RGBA)
+        gtex->PSM = GS_PSM_CT32;
+    else if (format == GL_RGB)
+        gtex->PSM = GS_PSM_CT24;
+
     gtex->Filter = (tex->MinFilter == GL_NEAREST) ? GS_FILTER_NEAREST
                                                   : GS_FILTER_LINEAR;
 
-    // <trindadedev>: I don't know how to make this actually work.
-    // in the old ps2gl it has a GS Mem C++ Implementation
-    // maybe we need something like that 
-    {
-        gtex->TBW = (gtex->Width + 63) / 64;
-        gtex->Mem = (u32 *)pixels;
-        int tex_size = gsKit_texture_size (gtex->Width, gtex->Height, gtex->PSM);
-        u32 vram_addr = gsKit_vram_alloc (gl.Gs, tex_size, GSKIT_ALLOC_USERBUFFER);
-        if (vram_addr == GSKIT_ALLOC_ERROR)
-            return;
-    
-        gtex->Vram = vram_addr;
-    }
-    gsKit_texture_upload (gl.Gs, &tex->GTexture);
+    u32 tex_size = gsKit_texture_size (gtex->Width, gtex->Height, gtex->PSM);
+    gtex->Mem = memalign (128, tex_size);
+
+    if (type == GL_UNSIGNED_BYTE)
+        memcpy(gtex->Mem, pixels, tex_size);
+
+    gsKit_texture_finish (gl.Gs, gtex);
 }
 
 void

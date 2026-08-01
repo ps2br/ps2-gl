@@ -1,10 +1,10 @@
 #include "ps2gl/draw.h"
 
 #include <GL/gl.h>
+#include <debug.h>
 #include <math.h>
 #include <math3d.h>
 
-#include "gsTexManager.h"
 #include "ps2gl/context.h"
 
 static void
@@ -78,8 +78,6 @@ glEnd (void)
         {
             GSTEXTURE *texture
                 = &gl.Tex.Textures[gl.Tex.BoundTexture].GTexture;
-
-            gsKit_TexManager_bind (gl.Gs, texture);
 
             float ua = va.TexCoords[0] * texture->Width;
             float va_uv = va.TexCoords[1] * texture->Height;
