@@ -3,3 +3,63 @@
   It can be confused with [ps2dev/ps2gl](https://github.com/ps2dev/ps2gl)  
   But it's different projects with same purpose.
 
+# TODO
+- [X] glClear
+- [X] glClearColor
+- [X] glViewport
+- [X] glBegin
+- [X] glEnd
+- [X] glMatrixMode
+- [X] glLoadIdentity
+- [X] glPushMatrix
+- [X] glPopMatrix
+- [X] glMultMatrixf
+- [X] glTranslatef
+- [X] glRotatef
+- [X] glScalef
+- [X] glOrtho
+- [X] glFrustum
+
+- [ ] glVertex2i
+- [ ] glVertex2f
+- [X] glVertex3f
+- [ ] glTexCoord2f
+- [ ] glNormal3f
+- [ ] glColor3f
+- [ ] glColor4f
+- [X] glColor4ub
+
+- [ ] glEnable
+- [ ] glDisable
+- [ ] glBindTexture
+- [ ] glTexParameteri
+- [ ] glPolygonMode
+- [ ] glGetFloatv
+- [ ] glDeleteTextures
+- [ ] glReadPixels
+
+- [ ] glDrawArrays
+- [ ] glDrawElements
+
+- [ ] glEnableClientState
+- [ ] glDisableClientState
+- [ ] glNormalPointer
+- [ ] glColorPointer
+- [ ] glVertexPointer
+- [ ] glTexCoordPointer
+
+- [ ] glDepthFunc
+- [ ] glDepthMask
+- [ ] glBlendFunc
+- [ ] glCullFace
+- [ ] glColorMask
+- [ ] glScissor
+- [ ] glGetString
+- [ ] glHint
+- [ ] glShadeModel
+- [ ] glClearDepth
+
+- [ ] glGenTextures
+- [ ] glPixelStorei
+- [ ] glTexImage2D
+- [ ] glTexSubImage2D
