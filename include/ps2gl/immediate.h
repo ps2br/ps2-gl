@@ -14,8 +14,6 @@ typedef struct ps2_vertex_t
 typedef struct ps2_immediate_context_t
 {
     PS2_Vertex Vertices[PS2_IMM_MAX_VERTICES];
-    GLubyte CurrentColor[4];
-
     int VertexCount;
     GLenum CurrentMode;
 } PS2_ImmContext;

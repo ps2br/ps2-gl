@@ -4,6 +4,7 @@
 #include <GL/gl.h>
 #include <gsKit.h>
 
+#include "linmath.h"
 #include "ps2gl/immediate.h"
 #include "ps2gl/matrix.h"
 
@@ -11,7 +12,7 @@ typedef struct ps2_gl_context_t
 {
     GSGLOBAL *Gs;
 
-    GLfloat ClearColor[4];
+    vec4 CurrentColor;
 
     GLint ViewportX;
     GLint ViewportY;

@@ -1,7 +1,6 @@
 #include <GL/gl.h>
 
 #include "ps2gl/context.h"
-#include "ps2gl/matrix.h"
 
 void
 glVertex2i (int x, int y)
@@ -13,9 +12,9 @@ glVertex2i (int x, int y)
     v->X = x;
     v->Y = y;
     v->Z = 0;
-    v->Color[0] = gl.Imm.CurrentColor[0];
-    v->Color[1] = gl.Imm.CurrentColor[1];
-    v->Color[2] = gl.Imm.CurrentColor[2];
+    v->Color[0] = gl.CurrentColor[0];
+    v->Color[1] = gl.CurrentColor[1];
+    v->Color[2] = gl.CurrentColor[2];
     v->Color[3] = 0;
 }
 
@@ -29,9 +28,9 @@ glVertex2f (GLfloat x, GLfloat y)
     v->X = x;
     v->Y = y;
     v->Z = 0;
-    v->Color[0] = gl.Imm.CurrentColor[0];
-    v->Color[1] = gl.Imm.CurrentColor[1];
-    v->Color[2] = gl.Imm.CurrentColor[2];
+    v->Color[0] = gl.CurrentColor[0];
+    v->Color[1] = gl.CurrentColor[1];
+    v->Color[2] = gl.CurrentColor[2];
     v->Color[3] = 0;
 }
 
@@ -45,8 +44,8 @@ glVertex3f (GLfloat x, GLfloat y, GLfloat z)
     v->X = x;
     v->Y = y;
     v->Z = z;
-    v->Color[0] = gl.Imm.CurrentColor[0];
-    v->Color[1] = gl.Imm.CurrentColor[1];
-    v->Color[2] = gl.Imm.CurrentColor[2];
-    v->Color[3] = gl.Imm.CurrentColor[3];
+    v->Color[0] = gl.CurrentColor[0];
+    v->Color[1] = gl.CurrentColor[1];
+    v->Color[2] = gl.CurrentColor[2];
+    v->Color[3] = gl.CurrentColor[3];
 }

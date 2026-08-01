@@ -22,16 +22,12 @@ PS2_GLInit (GSGLOBAL *gs)
     PS2_MatrixIdentity (gl.Matrix.ModelView);
     PS2_MatrixIdentity (gl.Matrix.Projection);
 
-    gl.ClearColor[0] = 0.f;
-    gl.ClearColor[1] = 0.f;
-    gl.ClearColor[2] = 0.f;
-    gl.ClearColor[3] = 1.f;
+    gl.CurrentColor[0] = 0.f;
+    gl.CurrentColor[1] = 0.f;
+    gl.CurrentColor[2] = 0.f;
+    gl.CurrentColor[3] = 1.f;
 
     memset (&gl.Imm, 0, sizeof gl.Imm);
-    gl.Imm.CurrentColor[0] = 1.f;
-    gl.Imm.CurrentColor[1] = 1.f;
-    gl.Imm.CurrentColor[2] = 1.f;
-    gl.Imm.CurrentColor[3] = 1.f;
 }
 
 void
