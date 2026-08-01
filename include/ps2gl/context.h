@@ -5,7 +5,7 @@
 #include <gsKit.h>
 
 #include "linmath.h"
-#include "ps2gl/immediate.h"
+#include "ps2gl/draw.h"
 #include "ps2gl/matrix.h"
 
 typedef struct ps2_gl_context_t
@@ -27,7 +27,7 @@ typedef struct ps2_gl_context_t
 
     GLuint BoundTexture;
 
-    PS2_ImmContext Imm;
+    PS2_DrawContext Draw;
     PS2_MatrixContext Matrix;
 } PS2_GLContext;
 

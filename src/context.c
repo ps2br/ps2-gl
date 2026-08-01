@@ -31,7 +31,7 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.CurrentNormal[1] = 0.f;
     gl.CurrentNormal[2] = 1.f;
 
-    memset (&gl.Imm, 0, sizeof gl.Imm);
+    memset (&gl.Draw, 0, sizeof gl.Draw);
 }
 
 void

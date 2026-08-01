@@ -8,7 +8,7 @@ add_library(ps2gl
     src/context.c
     src/clear.c
     src/viewport.c
-    src/immediate.c
+    src/draw.c
     src/color.c
     src/vertex.c
     src/common.c)
