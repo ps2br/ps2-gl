@@ -10,13 +10,13 @@
 
 typedef struct ps2_gl_capabilities_t
 {
-    GLboolean DepthTest;
-    GLboolean Blend;
-    GLboolean CullFace;
-    GLboolean Texture2D;
+    GLboolean DepthTest : 1;
+    GLboolean Blend : 1;
+    GLboolean CullFace : 1;
+    GLboolean Texture2D : 1;
 
     /** TODO: implement all the OpenGL Capabilities */
-} PS2_GLCapabilities;
+} __attribute__ ((packed)) PS2_GLCapabilities;
 
 typedef struct ps2_gl_context_t
 {
