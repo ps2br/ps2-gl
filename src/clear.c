@@ -27,10 +27,10 @@ glClearColor (GLclampf r, GLclampf g, GLclampf b, GLclampf a)
     if (a > 1.f)
         a = 1.f;
 
-    gl.CurrentColor[0] = r;
-    gl.CurrentColor[1] = g;
-    gl.CurrentColor[2] = b;
-    gl.CurrentColor[3] = a;
+    gl.Draw.CurrentColor[0] = r;
+    gl.Draw.CurrentColor[1] = g;
+    gl.Draw.CurrentColor[2] = b;
+    gl.Draw.CurrentColor[3] = a;
 }
 
 void
@@ -39,8 +39,8 @@ glClear (GLbitfield mask)
     if (mask & GL_COLOR_BUFFER_BIT)
     {
         u64 color
-            = GS_SETREG_RGBAQ (gl.CurrentColor[0], gl.CurrentColor[1],
-                               gl.CurrentColor[2], gl.CurrentColor[3], 0x00);
+            = GS_SETREG_RGBAQ (gl.Draw.CurrentColor[0], gl.Draw.CurrentColor[1],
+                               gl.Draw.CurrentColor[2], gl.Draw.CurrentColor[3], 0x00);
         gsKit_clear (gl.Gs, color);
     }
 }

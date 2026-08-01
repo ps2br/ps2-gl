@@ -1,9 +1,10 @@
 #include "ps2gl/draw.h"
 
 #include <GL/gl.h>
-#include <math3d.h>
 #include <math.h>
+#include <math3d.h>
 
+#include "gsTexManager.h"
 #include "ps2gl/context.h"
 
 static void
@@ -71,20 +72,66 @@ glEnd (void)
         PS2_ApplyLighting (&vc);
 
 #define ZDEPTH(v) (((v) + 1.f) * .5f)
-#define COLOR8(x) ((u8)(fminf(fmaxf((x), 0.0f), 1.0f) * 255.0f))
-        gsKit_prim_triangle_gouraud_3d (
-            gl.Gs,
+#define COLOR8(x) ((u8)(fminf (fmaxf ((x), 0.0f), 1.0f) * 255.0f))
 
-            xa, ya, (int)ZDEPTH (ax), xb, yb, (int)ZDEPTH (bx), xc, yc,
-            (int)ZDEPTH (cx),
+        if (gl.Caps.Texture2D && gl.Tex.BoundTexture != 0)
+        {
+            GSTEXTURE *texture
+                = &gl.Tex.Textures[gl.Tex.BoundTexture].GTexture;
 
-            GS_SETREG_RGBAQ (COLOR8 (va.Color[0]), COLOR8 (va.Color[1]),
-                             COLOR8 (va.Color[2]), COLOR8 (va.Color[3]), 0),
+            gsKit_TexManager_bind (gl.Gs, texture);
 
-            GS_SETREG_RGBAQ (COLOR8 (vb.Color[0]), COLOR8 (vb.Color[1]),
-                             COLOR8 (vb.Color[2]), COLOR8 (vb.Color[3]), 0),
+            float ua = va.TexCoords[0] * texture->Width;
+            float va_uv = va.TexCoords[1] * texture->Height;
 
-            GS_SETREG_RGBAQ (COLOR8 (vc.Color[0]), COLOR8 (vc.Color[1]),
-                             COLOR8 (vc.Color[2]), COLOR8 (vc.Color[3]), 0));
+            float ub = vb.TexCoords[0] * texture->Width;
+            float vb_uv = vb.TexCoords[1] * texture->Height;
+
+            float uc = vc.TexCoords[0] * texture->Width;
+            float uc_uv = vc.TexCoords[1] * texture->Height;
+
+            gsKit_prim_triangle_goraud_texture_3d (
+                gl.Gs,
+
+                texture,
+
+                xa, ya, (int)ZDEPTH (ax), ua, va_uv,
+
+                xb, yb, (int)ZDEPTH (bx), ub, vb_uv,
+
+                xc, yc, (int)ZDEPTH (cx), uc, uc_uv,
+
+                GS_SETREG_RGBAQ (COLOR8 (va.Color[0]), COLOR8 (va.Color[1]),
+                                 COLOR8 (va.Color[2]), COLOR8 (va.Color[3]),
+                                 0),
+
+                GS_SETREG_RGBAQ (COLOR8 (vb.Color[0]), COLOR8 (vb.Color[1]),
+                                 COLOR8 (vb.Color[2]), COLOR8 (vb.Color[3]),
+                                 0),
+
+                GS_SETREG_RGBAQ (COLOR8 (vc.Color[0]), COLOR8 (vc.Color[1]),
+                                 COLOR8 (vc.Color[2]), COLOR8 (vc.Color[3]),
+                                 0));
+        }
+        else
+        {
+            gsKit_prim_triangle_gouraud_3d (
+                gl.Gs,
+
+                xa, ya, (int)ZDEPTH (ax), xb, yb, (int)ZDEPTH (bx), xc, yc,
+                (int)ZDEPTH (cx),
+
+                GS_SETREG_RGBAQ (COLOR8 (va.Color[0]), COLOR8 (va.Color[1]),
+                                 COLOR8 (va.Color[2]), COLOR8 (va.Color[3]),
+                                 0),
+
+                GS_SETREG_RGBAQ (COLOR8 (vb.Color[0]), COLOR8 (vb.Color[1]),
+                                 COLOR8 (vb.Color[2]), COLOR8 (vb.Color[3]),
+                                 0),
+
+                GS_SETREG_RGBAQ (COLOR8 (vc.Color[0]), COLOR8 (vc.Color[1]),
+                                 COLOR8 (vc.Color[2]), COLOR8 (vc.Color[3]),
+                                 0));
+        }
     }
 }

@@ -4,31 +4,31 @@
 #include <GL/gl.h>
 #include <gsKit.h>
 
-#include "linmath.h"
 #include "ps2gl/draw.h"
 #include "ps2gl/matrix.h"
+#include "ps2gl/texture.h"
+
+typedef struct ps2_gl_capabilities_t
+{
+    GLboolean DepthTest;
+    GLboolean Blend;
+    GLboolean CullFace;
+    GLboolean Texture2D;
+} PS2_GLCapabilities;
 
 typedef struct ps2_gl_context_t
 {
     GSGLOBAL *Gs;
-
-    vec4 CurrentColor;
-    vec3 CurrentNormal;
 
     GLint ViewportX;
     GLint ViewportY;
     GLsizei ViewportWidth;
     GLsizei ViewportHeight;
 
-    GLboolean DepthTest;
-    GLboolean Blend;
-    GLboolean CullFace;
-    GLboolean Texture2D;
-
-    GLuint BoundTexture;
-
+    PS2_GLCapabilities Caps;
     PS2_DrawContext Draw;
     PS2_MatrixContext Matrix;
+    PS2_TextureContext Tex;
 } PS2_GLContext;
 
 extern PS2_GLContext gl;

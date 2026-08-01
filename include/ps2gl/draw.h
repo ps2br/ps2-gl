@@ -3,13 +3,13 @@
 
 #include <GL/gl.h>
 
-typedef GLfloat PS2_Coords[3];
-typedef GLfloat PS2_Color[4];
+#include "ps2gl/types.h"
 
 typedef struct ps2_vertex_t
 {
-    PS2_Coords Coords;
-    PS2_Coords Normal;
+    PS2_3DCoords Coords;
+    PS2_3DCoords Normal;
+    PS2_2DCoords TexCoords;
     PS2_Color Color;
 } PS2_Vertex;
 
@@ -19,6 +19,10 @@ typedef struct ps2_draw_context_t
 {
     PS2_Vertex Vertices[PS2_DRAW_MAX_VERTICES];
     int VertexCount;
+
+    PS2_Color CurrentColor;
+    PS2_3DCoords CurrentNormal;
+
     GLenum CurrentMode;
 } PS2_DrawContext;
 

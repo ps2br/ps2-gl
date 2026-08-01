@@ -32,8 +32,8 @@
 - [X] glColor4f
 - [X] glColor4ub
 
-- [ ] glEnable
-- [ ] glDisable
+- [X] glEnable
+- [X] glDisable
 - [ ] glBindTexture
 - [ ] glTexParameteri
 - [ ] glPolygonMode

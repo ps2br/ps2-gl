@@ -5,14 +5,17 @@
 static void
 PS2_SetVertexState(PS2_Vertex *v)
 {
-    v->Color[0] = gl.CurrentColor[0];
-    v->Color[1] = gl.CurrentColor[1];
-    v->Color[2] = gl.CurrentColor[2];
-    v->Color[3] = gl.CurrentColor[3];
+    v->Color[0] = gl.Draw.CurrentColor[0];
+    v->Color[1] = gl.Draw.CurrentColor[1];
+    v->Color[2] = gl.Draw.CurrentColor[2];
+    v->Color[3] = gl.Draw.CurrentColor[3];
 
-    v->Normal[0] = gl.CurrentNormal[0];
-    v->Normal[1] = gl.CurrentNormal[1];
-    v->Normal[2] = gl.CurrentNormal[2];
+    v->Normal[0] = gl.Draw.CurrentNormal[0];
+    v->Normal[1] = gl.Draw.CurrentNormal[1];
+    v->Normal[2] = gl.Draw.CurrentNormal[2];
+
+    v->TexCoords[0] = gl.Tex.CurrentTexCoords[0];
+    v->TexCoords[1] = gl.Tex.CurrentTexCoords[1];
 }
 
 void
