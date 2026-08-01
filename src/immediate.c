@@ -63,28 +63,3 @@ glEnd (void)
                              c->Color[3], 0));
     }
 }
-
-void
-glColor4ub (GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
-{
-    gl.Imm.CurrentColor[0] = red;
-    gl.Imm.CurrentColor[1] = green;
-    gl.Imm.CurrentColor[2] = blue;
-    gl.Imm.CurrentColor[3] = alpha;
-}
-
-void
-glVertex3f (GLfloat x, GLfloat y, GLfloat z)
-{
-    if (gl.Imm.VertexCount >= PS2_IMM_MAX_VERTICES)
-        return;
-
-    PS2_Vertex *v = &gl.Imm.Vertices[gl.Imm.VertexCount++];
-    v->X = x;
-    v->Y = y;
-    v->Z = z;
-    v->Color[0] = gl.Imm.CurrentColor[0];
-    v->Color[1] = gl.Imm.CurrentColor[1];
-    v->Color[2] = gl.Imm.CurrentColor[2];
-    v->Color[3] = gl.Imm.CurrentColor[3];
-}

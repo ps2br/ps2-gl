@@ -20,13 +20,13 @@
 - [X] glOrtho
 - [X] glFrustum
 
-- [ ] glVertex2i
-- [ ] glVertex2f
+- [X] glVertex2i
+- [X] glVertex2f
 - [X] glVertex3f
 - [ ] glTexCoord2f
 - [ ] glNormal3f
-- [ ] glColor3f
-- [ ] glColor4f
+- [X] glColor3f
+- [X] glColor4f
 - [X] glColor4ub
 
 - [ ] glEnable
