@@ -24,20 +24,7 @@ glVertex2i (int x, int y)
 void
 glVertex2f (GLfloat x, GLfloat y)
 {
-    if (gl.Imm.VertexCount >= PS2_IMM_MAX_VERTICES)
-        return;
-
-    PS2_Vertex *v = &gl.Imm.Vertices[gl.Imm.VertexCount++];
-    v->X = x;
-    v->Y = y;
-    v->Z = 0;
-    v->Color[0] = gl.CurrentColor[0];
-    v->Color[1] = gl.CurrentColor[1];
-    v->Color[2] = gl.CurrentColor[2];
-    v->Color[3] = 0;
-    v->NX = gl.CurrentNormal[0];
-    v->NY = gl.CurrentNormal[1];
-    v->NZ = gl.CurrentNormal[2];
+    glVertex3f(x, y, 0.f);
 }
 
 void
