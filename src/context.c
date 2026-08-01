@@ -11,21 +11,21 @@
 PS2_GLContext gl;
 
 void
-ps2glInit (GSGLOBAL *gs)
+PS2_GLInit (GSGLOBAL *gs)
 {
     memset (&gl, 0, sizeof gl);
     gl.Gs = gs;
     gl.ViewportWidth = gs->Width;
     gl.ViewportHeight = gs->Height;
-    gl.MatrixMode = GL_MODELVIEW;
+    gl.Matrix.Mode = GL_MODELVIEW;
 
-    PS2_MatrixIdentity (gl.ModelView);
-    PS2_MatrixIdentity (gl.Projection);
+    PS2_MatrixIdentity (gl.Matrix.ModelView);
+    PS2_MatrixIdentity (gl.Matrix.Projection);
 
     gl.ClearColor[0] = 0.f;
-    gl.ClearColor[0] = 0.f;
-    gl.ClearColor[0] = 0.f;
-    gl.ClearColor[0] = 1.f;
+    gl.ClearColor[1] = 0.f;
+    gl.ClearColor[2] = 0.f;
+    gl.ClearColor[3] = 1.f;
 
     memset (&gl.Imm, 0, sizeof gl.Imm);
     gl.Imm.CurrentColor[0] = 1.f;
@@ -35,6 +35,6 @@ ps2glInit (GSGLOBAL *gs)
 }
 
 void
-ps2glShutdown (void)
+PS2_GLShutdown (void)
 {
 }

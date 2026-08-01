@@ -5,15 +5,12 @@
 #include <gsKit.h>
 
 #include "ps2gl/immediate.h"
+#include "ps2gl/matrix.h"
 
 typedef struct ps2_gl_context_t
 {
     GSGLOBAL *Gs;
 
-    GLenum MatrixMode;
-
-    GLfloat Projection[16];
-    GLfloat ModelView[16];
     GLfloat ClearColor[4];
 
     GLint ViewportX;
@@ -29,11 +26,12 @@ typedef struct ps2_gl_context_t
     GLuint BoundTexture;
 
     PS2_ImmContext Imm;
+    PS2_MatrixContext Matrix;
 } PS2_GLContext;
 
 extern PS2_GLContext gl;
 
-void ps2glInit (GSGLOBAL *);
-void ps2glShutdown (void);
+void PS2_GLInit (GSGLOBAL *);
+void PS2_GLShutdown (void);
 
 #endif
