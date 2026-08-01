@@ -1,3 +1,22 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * Copyright (C) 2026 ps2br.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <GL/gl.h>
 
 #include "ps2gl/context.h"
@@ -69,12 +88,16 @@ glEnableClientState (GLenum cap)
 {
     switch (cap)
     {
-    case GL_COLOR_ARRAY:
     case GL_EDGE_FLAG_ARRAY:
     case GL_INDEX_ARRAY:
     case GL_NORMAL_ARRAY:
-    case GL_VERTEX_ARRAY:
         scr_printf ("PS2GL: ClientState %d not implemented.\n", cap);
+        break;
+    case GL_VERTEX_ARRAY:
+        gl.Draw.CurrentVertexArray.Enabled = 1;
+        break;
+    case GL_COLOR_ARRAY:
+        gl.Draw.CurrentColorArray.Enabled = 1;
         break;
     case GL_TEXTURE_COORD_ARRAY:
         gl.Tex.CurrentTexCoordsArray.Enabled = 1;
@@ -87,15 +110,28 @@ glDisableClientState (GLenum cap)
 {
     switch (cap)
     {
-    case GL_COLOR_ARRAY:
     case GL_EDGE_FLAG_ARRAY:
     case GL_INDEX_ARRAY:
     case GL_NORMAL_ARRAY:
-    case GL_VERTEX_ARRAY:
         scr_printf ("PS2GL: ClientState %d not implemented.\n", cap);
+        break;
+    case GL_VERTEX_ARRAY:
+        gl.Draw.CurrentVertexArray.Enabled = 0;
+        break;
+    case GL_COLOR_ARRAY:
+        gl.Draw.CurrentColorArray.Enabled = 0;
         break;
     case GL_TEXTURE_COORD_ARRAY:
         gl.Tex.CurrentTexCoordsArray.Enabled = 0;
         break;
     }
+}
+
+void
+glNormalPointer (GLenum type, GLsizei stride, const GLvoid *pointer)
+{
+    gl.Draw.CurrentNormalArray.Type = type;
+    gl.Draw.CurrentNormalArray.Stride = stride;
+    gl.Draw.CurrentNormalArray.Pointer = pointer;
+    gl.Draw.CurrentNormalArray.Enabled = 1;
 }

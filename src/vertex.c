@@ -1,9 +1,28 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * Copyright (C) 2026 ps2br.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <GL/gl.h>
 
 #include "ps2gl/context.h"
 
 static void
-PS2_SetVertexState(PS2_Vertex *v)
+PS2_SetVertexState (PS2_Vertex *v)
 {
     v->Color[0] = gl.Draw.CurrentColor[0];
     v->Color[1] = gl.Draw.CurrentColor[1];
@@ -29,7 +48,7 @@ glVertex2i (int x, int y)
     v->Coords[1] = y;
     v->Coords[2] = 0;
 
-    PS2_SetVertexState(v);
+    PS2_SetVertexState (v);
 }
 
 void
@@ -48,6 +67,16 @@ glVertex3f (GLfloat x, GLfloat y, GLfloat z)
     v->Coords[0] = x;
     v->Coords[1] = y;
     v->Coords[2] = z;
-    
-    PS2_SetVertexState(v);
+
+    PS2_SetVertexState (v);
+}
+
+void
+glVertexPointer (GLint size, GLenum type, GLsizei stride,
+                 const GLvoid *pointer)
+{
+    gl.Draw.CurrentVertexArray.Size = size;
+    gl.Draw.CurrentVertexArray.Type = type;
+    gl.Draw.CurrentVertexArray.Stride = stride;
+    gl.Draw.CurrentVertexArray.Pointer = pointer;
 }

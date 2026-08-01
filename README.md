@@ -33,7 +33,9 @@
 
     - [X] glEnable
     - [X] glDisable
-
+    - [X] glEnableClientState
+    - [X] glDisableClientState
+  
     - [ ] glPolygonMode
     - [ ] glGetFloatv
     - [ ] glReadPixels
@@ -41,11 +43,9 @@
     - [ ] glDrawArrays
     - [ ] glDrawElements
 
-    - [ ] glEnableClientState
-    - [ ] glDisableClientState
-    - [ ] glNormalPointer
-    - [ ] glColorPointer
-    - [ ] glVertexPointer
+    - [X] glNormalPointer
+    - [X] glColorPointer
+    - [X] glVertexPointer
 
     - [ ] glDepthFunc
     - [ ] glDepthMask
