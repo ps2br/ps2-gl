@@ -16,6 +16,9 @@ glVertex2i (int x, int y)
     v->Color[1] = gl.CurrentColor[1];
     v->Color[2] = gl.CurrentColor[2];
     v->Color[3] = 0;
+    v->NX = gl.CurrentNormal[0];
+    v->NY = gl.CurrentNormal[1];
+    v->NZ = gl.CurrentNormal[2];
 }
 
 void
@@ -32,6 +35,9 @@ glVertex2f (GLfloat x, GLfloat y)
     v->Color[1] = gl.CurrentColor[1];
     v->Color[2] = gl.CurrentColor[2];
     v->Color[3] = 0;
+    v->NX = gl.CurrentNormal[0];
+    v->NY = gl.CurrentNormal[1];
+    v->NZ = gl.CurrentNormal[2];
 }
 
 void
@@ -48,4 +54,7 @@ glVertex3f (GLfloat x, GLfloat y, GLfloat z)
     v->Color[1] = gl.CurrentColor[1];
     v->Color[2] = gl.CurrentColor[2];
     v->Color[3] = gl.CurrentColor[3];
+    v->NX = gl.CurrentNormal[0];
+    v->NY = gl.CurrentNormal[1];
+    v->NZ = gl.CurrentNormal[2];
 }

@@ -2,9 +2,25 @@
 
 #include <GL/gl.h>
 #include <math3d.h>
-#include <stdio.h>
 
 #include "ps2gl/context.h"
+
+static void
+PS2_ApplyLighting (PS2_Vertex *v)
+{
+    float lx = 0.f;
+    float ly = 0.f;
+    float lz = 1.f;
+
+    float dot = v->NX * lx + v->NY * ly + v->NZ * lz;
+
+    if (dot < 0.f)
+        dot = 0.f;
+
+    v->Color[0] *= dot;
+    v->Color[1] *= dot;
+    v->Color[2] *= dot;
+}
 
 void
 glBegin (GLenum mode)
@@ -42,9 +58,13 @@ glEnd (void)
         float xc = (cx + 1.0f) * 0.5f * gl.ViewportWidth;
         float yc = (1.0f - cy) * 0.5f * gl.ViewportHeight;
 
-        printf ("A: %f %f %f\n", ax, ay, az);
-        printf ("B: %f %f %f\n", bx, by, bz);
-        printf ("C: %f %f %f\n", cx, cy, cz);
+        /** make a copy to not modify the og vertex*/
+        PS2_Vertex va = *a;
+        PS2_Vertex vb = *b;
+        PS2_Vertex vc = *c;
+        PS2_ApplyLighting (&va);
+        PS2_ApplyLighting (&vb);
+        PS2_ApplyLighting (&vc);
 
 #define zdepth(v) ((az + 1.f) * .5f)
         gsKit_prim_triangle_gouraud_3d (
@@ -53,13 +73,13 @@ glEnd (void)
             xa, ya, (int)zdepth (az), xb, yb, (int)zdepth (bz), xc, yc,
             (int)zdepth (cz),
 
-            GS_SETREG_RGBAQ (a->Color[0], a->Color[1], a->Color[2],
-                             a->Color[3], 0),
+            GS_SETREG_RGBAQ (va.Color[0], va.Color[1], va.Color[2],
+                             va.Color[3], 0),
 
-            GS_SETREG_RGBAQ (b->Color[0], b->Color[1], b->Color[2],
-                             b->Color[3], 0),
+            GS_SETREG_RGBAQ (vb.Color[0], vb.Color[1], vb.Color[2],
+                             vb.Color[3], 0),
 
-            GS_SETREG_RGBAQ (c->Color[0], c->Color[1], c->Color[2],
-                             c->Color[3], 0));
+            GS_SETREG_RGBAQ (vc.Color[0], vc.Color[1], vc.Color[2],
+                             vc.Color[3], 0));
     }
 }

@@ -9,6 +9,7 @@
 - [X] glViewport
 - [X] glBegin
 - [X] glEnd
+
 - [X] glMatrixMode
 - [X] glLoadIdentity
 - [X] glPushMatrix
@@ -23,8 +24,10 @@
 - [X] glVertex2i
 - [X] glVertex2f
 - [X] glVertex3f
+
+- [X] glNormal3f
 - [ ] glTexCoord2f
-- [ ] glNormal3f
+
 - [X] glColor3f
 - [X] glColor4f
 - [X] glColor4ub

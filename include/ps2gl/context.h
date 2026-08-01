@@ -13,6 +13,7 @@ typedef struct ps2_gl_context_t
     GSGLOBAL *Gs;
 
     vec4 CurrentColor;
+    vec3 CurrentNormal;
 
     GLint ViewportX;
     GLint ViewportY;

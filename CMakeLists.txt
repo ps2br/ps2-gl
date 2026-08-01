@@ -10,7 +10,8 @@ add_library(ps2gl
     src/viewport.c
     src/immediate.c
     src/color.c
-    src/vertex.c)
+    src/vertex.c
+    src/common.c)
 
 target_include_directories(ps2gl PRIVATE include/)
 

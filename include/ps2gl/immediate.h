@@ -6,6 +6,7 @@
 typedef struct ps2_vertex_t
 {
     GLfloat X, Y, Z;
+    GLfloat NX, NY, NZ; // normal vector
     GLubyte Color[4];
 } PS2_Vertex;
 

@@ -27,6 +27,10 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.CurrentColor[2] = 0.f;
     gl.CurrentColor[3] = 1.f;
 
+    gl.CurrentNormal[0] = 0.f;
+    gl.CurrentNormal[1] = 0.f;
+    gl.CurrentNormal[2] = 1.f;
+
     memset (&gl.Imm, 0, sizeof gl.Imm);
 }
 
