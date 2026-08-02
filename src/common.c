@@ -135,3 +135,20 @@ glNormalPointer (GLenum type, GLsizei stride, const GLvoid *pointer)
     gl.Draw.CurrentNormalArray.Pointer = pointer;
     gl.Draw.CurrentNormalArray.Enabled = 1;
 }
+
+const GLubyte *
+glGetString (GLenum name)
+{
+#define _g(str) ((const GLubyte *)str)
+    switch (name)
+    {
+    case GL_VENDOR:
+        return _g ("ps2br-ps2gl");
+    case GL_VERSION:
+        return _g ("1.1");
+    case GL_RENDERER:
+        return _g ("PS2-gsKit");
+    }
+    return _g ("PS2_Unknown");
+#undef _g
+}

@@ -57,7 +57,7 @@
     - [ ] glCullFace
     - [ ] glColorMask
     - [ ] glScissor
-    - [ ] glGetString
+    - [X] glGetString
     - [ ] glHint
     - [ ] glShadeModel
     - [ ] glClearDepth
