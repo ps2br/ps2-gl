@@ -237,8 +237,7 @@ glDrawArrays (GLenum mode, GLint first, GLsizei count)
     }
 
     glBegin (mode);
-
-    for (size_t i = 0; i < count; i++)
+    for (GLsizei i = 0; i < count; i++)
     {
         int idx = first + i;
         if (gl.Draw.CurrentColorArray.Enabled)
@@ -252,6 +251,48 @@ glDrawArrays (GLenum mode, GLint first, GLsizei count)
 
         PS2_LoadVertexArr (idx);
     }
+    glEnd ();
+}
 
+void
+glDrawElements (GLenum mode, GLsizei count, GLenum type, const GLvoid *indices)
+{
+    if (!gl.Draw.CurrentVertexArray.Enabled)
+    {
+        gl.CurrentError = GL_INVALID_OPERATION;
+        return;
+    }
+
+    glBegin (mode);
+    for (GLsizei i = 0; i < count; i++)
+    {
+        GLuint idx;
+        switch (type)
+        {
+        case GL_UNSIGNED_BYTE:
+            idx = ((const GLubyte *)indices)[i];
+            break;
+        case GL_UNSIGNED_SHORT:
+            idx = ((const GLushort *)indices)[i];
+            break;
+        case GL_UNSIGNED_INT:
+            idx = ((const GLuint *)indices)[i];
+            break;
+        default:
+            gl.CurrentError = GL_INVALID_ENUM;
+            return;
+        }
+
+        if (gl.Draw.CurrentColorArray.Enabled)
+            PS2_LoadColorArr (idx);
+
+        if (gl.Tex.CurrentTexCoordsArray.Enabled)
+            PS2_LoadTexCoordsArr (idx);
+
+        if (gl.Draw.CurrentNormalArray.Enabled)
+            PS2_LoadNormalArr (idx);
+
+        PS2_LoadVertexArr (idx);
+    }
     glEnd ();
 }

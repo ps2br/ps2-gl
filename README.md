@@ -45,7 +45,7 @@
     - [ ] glReadPixels
 
     - [X] glDrawArrays
-    - [ ] glDrawElements
+    - [X] glDrawElements
 
     - [X] glNormalPointer
     - [X] glColorPointer
