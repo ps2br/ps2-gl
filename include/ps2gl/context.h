@@ -34,6 +34,18 @@ typedef struct ps2_gl_capabilities_t
     /** TODO: implement all the OpenGL Capabilities */
 } __attribute__ ((packed)) PS2_GLCapabilities;
 
+typedef struct PS2_GLHints
+{
+    GLenum PerspectiveCorrection;
+    GLenum PointSmooth;
+    GLenum LineSmooth;
+    GLenum PolygonSmooth;
+    GLenum Fog;
+    GLenum TextureCompression;
+    GLenum GenerateMipmap;
+    GLenum FragmentShaderDerivative;
+} PS2_GLHints;
+
 typedef struct ps2_gl_context_t
 {
     GSGLOBAL *Gs;
@@ -45,6 +57,7 @@ typedef struct ps2_gl_context_t
     GLenum CurrentError;
 
     PS2_GLCapabilities Caps;
+    PS2_GLHints Hints;
     PS2_DrawContext Draw;
     PS2_MatrixContext Matrix;
     PS2_TextureContext Tex;
