@@ -34,7 +34,7 @@ typedef struct ps2_gl_capabilities_t
     /** TODO: implement all the OpenGL Capabilities */
 } __attribute__ ((packed)) PS2_GLCapabilities;
 
-typedef struct PS2_GLHints
+typedef struct ps2_gl_hints_t
 {
     GLenum PerspectiveCorrection;
     GLenum PointSmooth;
