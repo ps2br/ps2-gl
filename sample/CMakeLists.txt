@@ -7,6 +7,7 @@ add_executable(ps2gl_sample
 
 target_link_libraries(ps2gl_sample PRIVATE
     ps2gl
+    ps2Kit
     packet
     draw
     graph
