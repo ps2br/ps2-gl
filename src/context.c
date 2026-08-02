@@ -65,6 +65,9 @@ PS2_GLInit (GSGLOBAL *gs)
 
     gl.Hints.LineSmooth = GL_DONT_CARE;
     gl.Hints.PolygonSmooth = GL_DONT_CARE;
+    gl.Hints.PointSmooth = GL_DONT_CARE;
+    gl.Hints.PerpectiveCorrection = GL_DONT_CARE;
+    gl.Hints.Fog = GL_DONT_CARE;
 }
 
 void

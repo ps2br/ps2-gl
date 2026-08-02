@@ -31,6 +31,9 @@ typedef struct ps2_gl_hints_t
 {
     GLenum LineSmooth;
     GLenum PolygonSmooth;
+    GLenum PointSmooth;
+    GLenum Fog;
+    GLenum PerpectiveCorrection;
 } PS2_GLHints;
 
 typedef struct ps2_gl_capabilities_t

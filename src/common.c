@@ -139,18 +139,17 @@ glNormalPointer (GLenum type, GLsizei stride, const GLvoid *pointer)
 const GLubyte *
 glGetString (GLenum name)
 {
-#define _g(str) ((const GLubyte *)str)
     switch (name)
     {
     case GL_VENDOR:
-        return _g ("ps2br-ps2gl");
+        return (const GLubyte *)"ps2br-ps2gl";
     case GL_VERSION:
-        return _g ("1.1");
+        return (const GLubyte *)"1.1";
     case GL_RENDERER:
-        return _g ("PS2-gsKit");
+        return (const GLubyte *)"PS2-gsKit";
     }
-    return _g ("PS2_Unknown");
-#undef _g
+    gl.CurrentError = GL_INVALID_ENUM;
+    return NULL;
 }
 
 GLenum
@@ -175,6 +174,15 @@ glHint (GLenum target, GLenum mode)
         break;
     case GL_POLYGON_SMOOTH_HINT:
         gl.Hints.PolygonSmooth = mode;
+        break;
+    case GL_POINT_SMOOTH_HINT:
+        gl.Hints.PointSmooth = mode;
+        break;
+    case GL_PERSPECTIVE_CORRECTION_HINT:
+        gl.Hints.PerpectiveCorrection = mode;
+        break;
+    case GL_FOG_HINT:
+        gl.Hints.Fog = mode;
         break;
     default:
         gl.CurrentError = GL_INVALID_ENUM;
