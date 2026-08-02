@@ -138,7 +138,33 @@ glNormalPointer (GLenum type, GLsizei stride, const GLvoid *pointer)
 
 void glHint(GLenum target, GLenum mode)
 {
-    //PS2GL: glHint not implemented
+    switch(target){
+        
+        case GL_PERSPECTIVE_CORRECTION_HINT:
+            gl.Hints.PerspectiveCorrection = mode;
+            break;
+        case GL_POINT_SMOOTH_HINT:
+            gl.Hints.PointSmooth = mode;
+            break;
+        case GL_LINE_SMOOTH_HINT:
+            gl.Hints.LineSmooth = mode;
+            break;
+        case GL_POLYGON_SMOOTH_HINT:
+            gl.Hints.PolygonSmooth = mode;
+            break;
+        case GL_FOG_HINT:
+            gl.Hints.Fog = mode;
+            break;
+        case GL_TEXTURE_COMPRESSION_HINT:
+            gl.Hints.TextureCompression = mode;
+            break;
+        case GL_GENERATE_MIPMAP_HINT:
+            gl.Hints.GenerateMipmap = mode;
+            break;
+        case GL_FRAGMENT_SHADER_DERIVATIVE_HINT:
+            gl.Hints.FragmentShaderDerivative = mode;
+            break;
+    }
 }
 
 const GLubyte *
