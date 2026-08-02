@@ -22,10 +22,9 @@
 #include <string.h>
 
 #include <GL/gl.h>
-#include <gsInit.h>
+#include <gsKit.h>
 #include <tamtypes.h>
 
-#include "dmaInit.h"
 #include "ps2gl/matrix.h"
 
 PS2_GLContext gl;
@@ -60,11 +59,6 @@ PS2_GLInit (GSGLOBAL *gs)
 
     /** TODO: implement all the OpenGL Capabilities */
     gl.Caps.Texture2D = 0;
-
-    /** Initiliaze @dmaKit and @dmaKit_chan */
-    dmaKit_init (D_CTRL_RELE_OFF, D_CTRL_MFD_OFF, D_CTRL_STS_UNSPEC,
-                 D_CTRL_STD_OFF, D_CTRL_RCYC_8, 1 << DMA_CHANNEL_GIF);
-    dmaKit_chan_init (DMA_CHANNEL_GIF);
 
     gl.Gs->PSM = GS_PSM_CT32;
     gl.Gs->PSMZ = GS_PSMZ_16S;

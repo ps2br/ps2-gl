@@ -17,11 +17,10 @@ add_library(ps2gl
 target_include_directories(ps2gl PRIVATE include/)
 
 target_link_libraries(ps2gl PRIVATE
-    packet
-    draw
-    graph
+    m
     math3d
-    dma)
+    gskit
+    gskit_toolkit)
 
 install(
     TARGETS ps2gl

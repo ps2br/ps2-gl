@@ -61,8 +61,8 @@ extern PS2_GLContext gl;
 
 /**
  * Initilazes the GL State.
- * this function MUST be called after @gsKit_init_global.
- * this function initialzes @dmaKit and @dmaKit_chan.
+ * This function depends on @gsKit, @dmaKit and @dmaKit_chan
+ *   so they should be all initialized before calling this.
  * Every call to @PS2_GLInit should have it PS2_GLShutdown at end of usage.
  */
 extern void PS2_GLInit (GSGLOBAL *);
