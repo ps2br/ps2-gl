@@ -136,6 +136,11 @@ glNormalPointer (GLenum type, GLsizei stride, const GLvoid *pointer)
     gl.Draw.CurrentNormalArray.Enabled = 1;
 }
 
+void glHint(GLenum target, GLenum mode)
+{
+    //PS2GL: glHint not implemented
+}
+
 const GLubyte *
 glGetString (GLenum name)
 {
