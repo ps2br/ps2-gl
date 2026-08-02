@@ -42,13 +42,12 @@ typedef struct ps2_gl_context_t
     GLint ViewportY;
     GLsizei ViewportWidth;
     GLsizei ViewportHeight;
+    GLenum CurrentError;
 
     PS2_GLCapabilities Caps;
     PS2_DrawContext Draw;
     PS2_MatrixContext Matrix;
     PS2_TextureContext Tex;
-    
-    GLenum CurrentError;
 } PS2_GLContext;
 
 extern PS2_GLContext gl;
