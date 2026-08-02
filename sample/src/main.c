@@ -3,14 +3,23 @@
 #include <ps2Kit.h>
 
 static GLfloat vertices[] = {
-    -0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f,
+    -.5f, -.5f, 0.f, // left bottom
+     .5f, -.5f, 0.f, // right bottom
+     .5f,  .5f, 0.f, // right top
+    -.5f,  .5f, 0.f  // left top
 };
 
 static GLfloat texcoords[] = {
-    0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 1.0f,
+    0.f, 0.f, // 0
+    1.f, 0.f, // 1
+    1.f, 1.f, // 2
+    0.f, 1.f  // 3
 };
 
-static GLubyte indices[] = { 0, 1, 2, 2, 3, 0 };
+static GLubyte indices[] = {
+    0, 1, 2, // 1 triangle
+    2, 3, 0  // 2 triangle
+};
 
 int
 main (void)
