@@ -69,11 +69,12 @@ glDeleteTextures (GLsizei n, const GLuint *textures)
 void
 glBindTexture (GLenum target, GLuint texture)
 {
-    if (texture >= PS2_TEXTURES_MAX){
+    if (texture >= PS2_TEXTURES_MAX)
+    {
         gl.CurrentError = GL_STACK_OVERFLOW;
         return;
-     }
-     
+    }
+
     gl.Tex.BoundTexture = texture;
 }
 

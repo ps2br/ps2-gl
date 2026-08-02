@@ -41,6 +41,7 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.ViewportWidth = gs->Width;
     gl.ViewportHeight = gs->Height;
     gl.Matrix.Mode = GL_MODELVIEW;
+    gl.CurrentError = 0;
 
     PS2_MatrixIdentity (gl.Matrix.ModelView);
     PS2_MatrixIdentity (gl.Matrix.Projection);
@@ -56,8 +57,6 @@ PS2_GLInit (GSGLOBAL *gs)
 
     gl.Tex.CurrentTexCoords[0] = 0.f;
     gl.Tex.CurrentTexCoords[1] = 0.f;
-    
-    gl.CurrentError = 0;
 
     /** TODO: implement all the OpenGL Capabilities */
     gl.Caps.Texture2D = 0;
