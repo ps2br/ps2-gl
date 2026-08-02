@@ -56,6 +56,8 @@ PS2_GLInit (GSGLOBAL *gs)
 
     gl.Tex.CurrentTexCoords[0] = 0.f;
     gl.Tex.CurrentTexCoords[1] = 0.f;
+    
+    gl.CurrentError = 0;
 
     /** TODO: implement all the OpenGL Capabilities */
     gl.Caps.Texture2D = 0;

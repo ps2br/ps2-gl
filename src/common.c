@@ -152,3 +152,9 @@ glGetString (GLenum name)
     return _g ("PS2_Unknown");
 #undef _g
 }
+
+GLenum
+glGetError (void)
+{
+    return gl.CurrentError;
+}
