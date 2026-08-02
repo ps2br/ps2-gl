@@ -27,6 +27,12 @@
 #include "ps2gl/matrix.h"
 #include "ps2gl/texture.h"
 
+typedef struct ps2_gl_hints_t
+{
+    GLenum LineSmooth;
+    GLenum PolygonSmooth;
+} PS2_GLHints;
+
 typedef struct ps2_gl_capabilities_t
 {
     GLboolean Texture2D : 1;
@@ -45,6 +51,7 @@ typedef struct ps2_gl_context_t
     GLenum CurrentError;
 
     PS2_GLCapabilities Caps;
+    PS2_GLHints Hints;
     PS2_DrawContext Draw;
     PS2_MatrixContext Matrix;
     PS2_TextureContext Tex;

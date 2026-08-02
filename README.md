@@ -58,7 +58,7 @@
     - [ ] glColorMask
     - [ ] glScissor
     - [X] glGetString
-    - [ ] glHint
+    - [X] glHint
     - [ ] glShadeModel
     - [ ] glClearDepth
     - [ ] glPixelStorei

@@ -158,3 +158,26 @@ glGetError (void)
 {
     return gl.CurrentError;
 }
+
+void
+glHint (GLenum target, GLenum mode)
+{
+    if (mode != GL_FASTEST && mode != GL_NICEST && mode != GL_DONT_CARE)
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+
+    switch (target)
+    {
+    case GL_LINE_SMOOTH_HINT:
+        gl.Hints.LineSmooth = mode;
+        break;
+    case GL_POLYGON_SMOOTH_HINT:
+        gl.Hints.PolygonSmooth = mode;
+        break;
+    default:
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+}

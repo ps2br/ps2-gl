@@ -68,6 +68,9 @@ PS2_GLInit (GSGLOBAL *gs)
 
     gl.Gs->PSM = GS_PSM_CT32;
     gl.Gs->PSMZ = GS_PSMZ_16S;
+
+    gl.Hints.LineSmooth = GL_DONT_CARE;
+    gl.Hints.PolygonSmooth = GL_DONT_CARE;
 }
 
 void
