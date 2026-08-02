@@ -44,7 +44,7 @@
     - [ ] glGetFloatv
     - [ ] glReadPixels
 
-    - [ ] glDrawArrays
+    - [X] glDrawArrays
     - [ ] glDrawElements
 
     - [X] glNormalPointer

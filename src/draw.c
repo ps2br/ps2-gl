@@ -23,6 +23,7 @@
 #include <debug.h>
 #include <math.h>
 #include <math3d.h>
+#include <stddef.h>
 
 #include "ps2gl/context.h"
 
@@ -112,11 +113,11 @@ glEnd (void)
 
                 texture,
 
-                xa, ya, (int)ZDEPTH (ax), ua, va_uv,
+                xa, ya, (int)ZDEPTH (az), ua, va_uv,
 
-                xb, yb, (int)ZDEPTH (bx), ub, vb_uv,
+                xb, yb, (int)ZDEPTH (bz), ub, vb_uv,
 
-                xc, yc, (int)ZDEPTH (cx), uc, uc_uv,
+                xc, yc, (int)ZDEPTH (cz), uc, uc_uv,
 
                 GS_SETREG_RGBAQ (COLOR8 (va.Color[0]), COLOR8 (va.Color[1]),
                                  COLOR8 (va.Color[2]), COLOR8 (va.Color[3]),
@@ -135,8 +136,8 @@ glEnd (void)
             gsKit_prim_triangle_gouraud_3d (
                 gl.Gs,
 
-                xa, ya, (int)ZDEPTH (ax), xb, yb, (int)ZDEPTH (bx), xc, yc,
-                (int)ZDEPTH (cx),
+                xa, ya, (int)ZDEPTH (az), xb, yb, (int)ZDEPTH (bz), xc, yc,
+                (int)ZDEPTH (cz),
 
                 GS_SETREG_RGBAQ (COLOR8 (va.Color[0]), COLOR8 (va.Color[1]),
                                  COLOR8 (va.Color[2]), COLOR8 (va.Color[3]),
@@ -151,4 +152,106 @@ glEnd (void)
                                  0));
         }
     }
+}
+
+static void
+PS2_LoadColorArr (int index)
+{
+    const char *base = gl.Draw.CurrentColorArray.Pointer;
+
+    size_t stride = gl.Draw.CurrentColorArray.Stride;
+    if (stride == 0)
+        stride = gl.Draw.CurrentColorArray.Size * sizeof (GLfloat);
+
+    const GLfloat *c = (const GLfloat *)(base + index * stride);
+    switch (gl.Draw.CurrentColorArray.Size)
+    {
+    case 3:
+        glColor3f (c[0], c[1], c[2]);
+        break;
+    case 4:
+        glColor4f (c[0], c[1], c[2], c[3]);
+        break;
+    }
+}
+
+static void
+PS2_LoadTexCoordsArr (int index)
+{
+    const char *base = gl.Tex.CurrentTexCoordsArray.Pointer;
+
+    size_t stride = gl.Tex.CurrentTexCoordsArray.Stride;
+    if (stride == 0)
+        stride = gl.Tex.CurrentTexCoordsArray.Size * sizeof (GLfloat);
+
+    const GLfloat *tc = (const GLfloat *)(base + index * stride);
+    switch (gl.Tex.CurrentTexCoordsArray.Size)
+    {
+    case 2:
+        glTexCoord2f (tc[0], tc[1]);
+        break;
+    }
+}
+
+static void
+PS2_LoadNormalArr (int index)
+{
+    const char *base = gl.Draw.CurrentNormalArray.Pointer;
+
+    size_t stride = gl.Draw.CurrentNormalArray.Stride;
+    if (stride == 0)
+        stride = 3 * sizeof (GLfloat);
+
+    const GLfloat *n = (const GLfloat *)(base + index * stride);
+    glNormal3f (n[0], n[1], n[2]);
+}
+
+static void
+PS2_LoadVertexArr (int index)
+{
+    const char *base = gl.Draw.CurrentVertexArray.Pointer;
+
+    size_t stride = gl.Draw.CurrentVertexArray.Stride;
+    if (stride == 0)
+        stride = gl.Draw.CurrentVertexArray.Size * sizeof (GLfloat);
+
+    const GLfloat *v = (const GLfloat *)(base + index * stride);
+    switch (gl.Draw.CurrentVertexArray.Size)
+    {
+    case 2:
+        glVertex3f (v[0], v[1], 0.f);
+        break;
+    case 3:
+        glVertex3f (v[0], v[1], v[2]);
+        break;
+    }
+}
+
+void
+glDrawArrays (GLenum mode, GLint first, GLsizei count)
+{
+    if (!gl.Draw.CurrentVertexArray.Enabled)
+    {
+        gl.CurrentError = GL_INVALID_OPERATION;
+        return;
+    }
+
+    glBegin (mode);
+
+    for (size_t i = 0; i < count; i++)
+    {
+        int idx = first + i;
+        if (gl.Draw.CurrentColorArray.Enabled)
+            PS2_LoadColorArr (idx);
+
+        if (gl.Tex.CurrentTexCoordsArray.Enabled)
+            PS2_LoadTexCoordsArr (idx);
+
+        if (gl.Draw.CurrentNormalArray.Enabled)
+            PS2_LoadNormalArr (idx);
+
+        PS2_LoadVertexArr (idx);
+    }
+
+    glEnd ();
 }
