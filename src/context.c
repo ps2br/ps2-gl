@@ -68,6 +68,16 @@ PS2_GLInit (GSGLOBAL *gs)
 
     gl.Gs->PSM = GS_PSM_CT32;
     gl.Gs->PSMZ = GS_PSMZ_16S;
+
+    /** Initialize GL hints */
+    gl.Hints.PerspectiveCorrection = GL_DONT_CARE;
+    gl.Hints.PointSmooth = GL_DONT_CARE;
+    gl.Hints.LineSmooth = GL_DONT_CARE;
+    gl.Hints.PolygonSmooth = GL_DONT_CARE;
+    gl.Hints.Fog = GL_DONT_CARE;
+    gl.Hints.TextureCompression = GL_DONT_CARE;
+    gl.Hints.GenerateMipmap = GL_DONT_CARE;
+    gl.Hints.FragmentShaderDerivative = GL_DONT_CARE;
 }
 
 void
