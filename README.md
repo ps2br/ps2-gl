@@ -40,7 +40,7 @@
     - [X] glEnableClientState
     - [X] glDisableClientState
   
-    - [ ] glPolygonMode
+    - [X] glPolygonMode
     - [X] glGetFloatv
     - [ ] glReadPixels
 

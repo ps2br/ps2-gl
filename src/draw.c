@@ -21,11 +21,112 @@
 
 #include <GL/gl.h>
 #include <debug.h>
+#include <gsKit.h>
 #include <math.h>
 #include <math3d.h>
 #include <stddef.h>
 
 #include "ps2gl/context.h"
+#include "ps2gl/types.h"
+
+void
+glBegin (GLenum mode)
+{
+    gl.Draw.VertexCount = 0;
+    gl.Draw.CurrentMode = mode;
+}
+
+#define COLOR8(x) ((u8)(fminf (fmaxf ((x), 0.0f), 1.0f) * 255.0f))
+
+static void
+PS2_DrawFilledTriangleWithTexture (PS2_Vertex *va, PS2_Vertex *vb,
+                                   PS2_Vertex *vc, PS2_3DCoords *a,
+                                   PS2_3DCoords *b, PS2_3DCoords *c)
+{
+    GSTEXTURE *texture = &gl.Tex.Textures[gl.Tex.BoundTexture].GTexture;
+
+    PS2_2DCoords tex_a;
+    tex_a[0] = va->TexCoords[0] * texture->Width;
+    tex_a[1] = va->TexCoords[1] * texture->Height;
+
+    PS2_2DCoords tex_b;
+    tex_b[0] = vb->TexCoords[0] * texture->Width;
+    tex_b[1] = vb->TexCoords[1] * texture->Height;
+
+    PS2_2DCoords tex_c;
+    tex_c[0] = vc->TexCoords[0] * texture->Width;
+    tex_c[1] = vc->TexCoords[1] * texture->Height;
+
+    gsKit_prim_triangle_goraud_texture_3d (
+        gl.Gs,
+
+        texture,
+
+        *a[0], *a[1], *a[2], tex_a[0], tex_a[1],
+
+        *b[0], *b[1], *b[2], tex_b[0], tex_b[1],
+
+        *c[0], *c[1], *c[2], tex_c[0], tex_c[1],
+
+        GS_SETREG_RGBAQ (COLOR8 (va->Color[0]), COLOR8 (va->Color[1]),
+                         COLOR8 (va->Color[2]), COLOR8 (va->Color[3]), 0),
+
+        GS_SETREG_RGBAQ (COLOR8 (vb->Color[0]), COLOR8 (vb->Color[1]),
+                         COLOR8 (vb->Color[2]), COLOR8 (vb->Color[3]), 0),
+
+        GS_SETREG_RGBAQ (COLOR8 (vc->Color[0]), COLOR8 (vc->Color[1]),
+                         COLOR8 (vc->Color[2]), COLOR8 (vc->Color[3]), 0));
+}
+
+static void
+PS2_DrawFilledTriangle (PS2_Vertex *va, PS2_Vertex *vb, PS2_Vertex *vc,
+                        PS2_3DCoords *a, PS2_3DCoords *b, PS2_3DCoords *c)
+{
+    /** with texture */
+    if (gl.Caps.Texture2D && gl.Tex.BoundTexture != 0)
+    {
+        PS2_DrawFilledTriangleWithTexture (va, vb, vc, a, b, c);
+        return;
+    }
+
+    /** common colored */
+    gsKit_prim_triangle_gouraud_3d (
+        gl.Gs,
+
+        *a[0], *a[1], *a[2], *b[0], *b[2], *b[2], *c[0], *c[1], *c[2],
+
+        GS_SETREG_RGBAQ (COLOR8 (va->Color[0]), COLOR8 (va->Color[1]),
+                         COLOR8 (va->Color[2]), COLOR8 (va->Color[3]), 0),
+
+        GS_SETREG_RGBAQ (COLOR8 (vb->Color[0]), COLOR8 (vb->Color[1]),
+                         COLOR8 (vb->Color[2]), COLOR8 (vb->Color[3]), 0),
+
+        GS_SETREG_RGBAQ (COLOR8 (vc->Color[0]), COLOR8 (vc->Color[1]),
+                         COLOR8 (vc->Color[2]), COLOR8 (vc->Color[3]), 0));
+}
+
+static void
+PS2_DrawTriangle (PS2_Vertex *va, PS2_Vertex *vb, PS2_Vertex *vc,
+                  PS2_3DCoords *a, PS2_3DCoords *b, PS2_3DCoords *c,
+                  GLenum polygon_mode)
+{
+    if (polygon_mode == GL_FILL)
+    {
+        PS2_DrawFilledTriangle (va, vb, vc, a, b, c);
+        return;
+    }
+
+    /** TODO: implement GL_LINES and GL_POINTS */
+    if (polygon_mode == GL_LINE)
+    {
+    }
+    if (polygon_mode == GL_POINT)
+    {
+    }
+
+    scr_printf ("PS2GL: PS2_DrawTriangle, Mode %d not implemented.",
+                polygon_mode);
+}
 
 static void
 PS2_ApplyLighting (PS2_Vertex *v)
@@ -45,15 +146,9 @@ PS2_ApplyLighting (PS2_Vertex *v)
 }
 
 void
-glBegin (GLenum mode)
-{
-    gl.Draw.VertexCount = 0;
-    gl.Draw.CurrentMode = mode;
-}
-
-void
 glEnd (void)
 {
+    /** only Triangles supported now */
     if (gl.Draw.CurrentMode != GL_TRIANGLES)
         return;
 
@@ -63,25 +158,28 @@ glEnd (void)
         PS2_Vertex *b = &gl.Draw.Vertices[i + 1];
         PS2_Vertex *c = &gl.Draw.Vertices[i + 2];
 
-        float ax, ay, az;
-        float bx, by, bz;
-        float cx, cy, cz;
+        PS2_3DCoords _a;
+        PS2_3DCoords _b;
+        PS2_3DCoords _c;
 
-        PS2_TransformVertex (a->Coords[0], a->Coords[1], a->Coords[2], &ax,
-                             &ay, &az);
-        PS2_TransformVertex (b->Coords[0], b->Coords[1], b->Coords[2], &bx,
-                             &by, &bz);
-        PS2_TransformVertex (c->Coords[0], c->Coords[1], c->Coords[2], &cx,
-                             &cy, &cz);
+        PS2_TransformVertex (a->Coords[0], a->Coords[1], a->Coords[2], &_a[0],
+                             &_a[2], &_a[2]);
+        PS2_TransformVertex (b->Coords[0], b->Coords[1], b->Coords[2], &_b[0],
+                             &_b[1], &_b[2]);
+        PS2_TransformVertex (c->Coords[0], c->Coords[1], c->Coords[2], &_c[0],
+                             &_c[1], &_c[2]);
 
-        float xa = (ax + 1.0f) * 0.5f * gl.ViewportWidth;
-        float ya = (1.0f - ay) * 0.5f * gl.ViewportHeight;
+        _a[0] = (_a[0] + 1.0f) * 0.5f * gl.ViewportWidth;
+        _a[1] = (1.0f - _a[1]) * 0.5f * gl.ViewportHeight;
+        _a[2] = ((_a[2]) + 1.f) * .5f;
 
-        float xb = (bx + 1.0f) * 0.5f * gl.ViewportWidth;
-        float yb = (1.0f - by) * 0.5f * gl.ViewportHeight;
+        _b[0] = (_b[0] + 1.0f) * 0.5f * gl.ViewportWidth;
+        _b[1] = (1.0f - _b[1]) * 0.5f * gl.ViewportHeight;
+        _b[2] = ((_b[2]) + 1.f) * .5f;
 
-        float xc = (cx + 1.0f) * 0.5f * gl.ViewportWidth;
-        float yc = (1.0f - cy) * 0.5f * gl.ViewportHeight;
+        _c[0] = (_c[0] + 1.0f) * 0.5f * gl.ViewportWidth;
+        _c[1] = (1.0f - _c[1]) * 0.5f * gl.ViewportHeight;
+        _c[2] = ((_c[2]) + 1.f) * .5f;
 
         /** make a copy to not modify the og vertex*/
         PS2_Vertex va = *a;
@@ -91,66 +189,13 @@ glEnd (void)
         PS2_ApplyLighting (&vb);
         PS2_ApplyLighting (&vc);
 
-#define ZDEPTH(v) (((v) + 1.f) * .5f)
-#define COLOR8(x) ((u8)(fminf (fmaxf ((x), 0.0f), 1.0f) * 255.0f))
+        float cross = (_b[0] - _a[0]) * (_c[1] - _a[1])
+                      - (_b[1] - _a[1]) * (_c[0] - _a[0]);
+        int front = cross < 0;
+        GLenum mode
+            = front ? gl.Draw.Polygon.FrontMode : gl.Draw.Polygon.BackMode;
 
-        if (gl.Caps.Texture2D && gl.Tex.BoundTexture != 0)
-        {
-            GSTEXTURE *texture
-                = &gl.Tex.Textures[gl.Tex.BoundTexture].GTexture;
-
-            float ua = va.TexCoords[0] * texture->Width;
-            float va_uv = va.TexCoords[1] * texture->Height;
-
-            float ub = vb.TexCoords[0] * texture->Width;
-            float vb_uv = vb.TexCoords[1] * texture->Height;
-
-            float uc = vc.TexCoords[0] * texture->Width;
-            float uc_uv = vc.TexCoords[1] * texture->Height;
-
-            gsKit_prim_triangle_goraud_texture_3d (
-                gl.Gs,
-
-                texture,
-
-                xa, ya, (int)ZDEPTH (az), ua, va_uv,
-
-                xb, yb, (int)ZDEPTH (bz), ub, vb_uv,
-
-                xc, yc, (int)ZDEPTH (cz), uc, uc_uv,
-
-                GS_SETREG_RGBAQ (COLOR8 (va.Color[0]), COLOR8 (va.Color[1]),
-                                 COLOR8 (va.Color[2]), COLOR8 (va.Color[3]),
-                                 0),
-
-                GS_SETREG_RGBAQ (COLOR8 (vb.Color[0]), COLOR8 (vb.Color[1]),
-                                 COLOR8 (vb.Color[2]), COLOR8 (vb.Color[3]),
-                                 0),
-
-                GS_SETREG_RGBAQ (COLOR8 (vc.Color[0]), COLOR8 (vc.Color[1]),
-                                 COLOR8 (vc.Color[2]), COLOR8 (vc.Color[3]),
-                                 0));
-        }
-        else
-        {
-            gsKit_prim_triangle_gouraud_3d (
-                gl.Gs,
-
-                xa, ya, (int)ZDEPTH (az), xb, yb, (int)ZDEPTH (bz), xc, yc,
-                (int)ZDEPTH (cz),
-
-                GS_SETREG_RGBAQ (COLOR8 (va.Color[0]), COLOR8 (va.Color[1]),
-                                 COLOR8 (va.Color[2]), COLOR8 (va.Color[3]),
-                                 0),
-
-                GS_SETREG_RGBAQ (COLOR8 (vb.Color[0]), COLOR8 (vb.Color[1]),
-                                 COLOR8 (vb.Color[2]), COLOR8 (vb.Color[3]),
-                                 0),
-
-                GS_SETREG_RGBAQ (COLOR8 (vc.Color[0]), COLOR8 (vc.Color[1]),
-                                 COLOR8 (vc.Color[2]), COLOR8 (vc.Color[3]),
-                                 0));
-        }
+        PS2_DrawTriangle (&va, &vb, &vc, &_a, &_b, &_c, mode);
     }
 }
 

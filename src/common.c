@@ -219,3 +219,30 @@ glGetFloatv (GLenum pname, GLfloat *params)
         return;
     }
 }
+
+void
+glPolygonMode (GLenum face, GLenum mode)
+{
+    if (mode != GL_POINT && mode != GL_LINE && mode != GL_FILL)
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+
+    switch (face)
+    {
+    case GL_FRONT:
+        gl.Draw.Polygon.FrontMode = mode;
+        break;
+    case GL_BACK:
+        gl.Draw.Polygon.BackMode = mode;
+        break;
+    case GL_FRONT_AND_BACK:
+        gl.Draw.Polygon.FrontMode = mode;
+        gl.Draw.Polygon.BackMode = mode;
+        break;
+    default:
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    };
+}

@@ -32,6 +32,12 @@ typedef struct ps2_vertex_t
     PS2_Color Color;
 } PS2_Vertex;
 
+typedef struct ps2_polygon_t
+{
+    GLenum FrontMode;
+    GLenum BackMode;
+} PS2_Polygon;
+
 #define PS2_DRAW_MAX_VERTICES 4096
 
 typedef struct ps2_draw_context_t
@@ -46,6 +52,8 @@ typedef struct ps2_draw_context_t
 
     GLfloat LineWidth;
     GLfloat PointSize;
+
+    PS2_Polygon Polygon;
 
     /** used for glDrawArrays */
     PS2_GLArray CurrentVertexArray;

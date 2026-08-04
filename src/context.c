@@ -58,6 +58,8 @@ PS2_GLInit (GSGLOBAL *gs)
 
     gl.Draw.LineWidth = 1.f;
     gl.Draw.PointSize = 1.f;
+    gl.Draw.Polygon.FrontMode = GL_FILL;
+    gl.Draw.Polygon.BackMode = GL_FILL;
 
     gl.Tex.CurrentTexCoords[0] = 0.f;
     gl.Tex.CurrentTexCoords[1] = 0.f;
