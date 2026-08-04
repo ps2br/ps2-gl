@@ -37,6 +37,8 @@ PS2_GLInit (GSGLOBAL *gs)
     memset (&gl.Tex, 0, sizeof gl.Tex);
 
     gl.Gs = gs;
+    gl.Gs->PSM = GS_PSM_CT32;
+    gl.Gs->PSMZ = GS_PSMZ_16S;
     gl.ViewportWidth = gs->Width;
     gl.ViewportHeight = gs->Height;
     gl.Matrix.Mode = GL_MODELVIEW;
@@ -54,14 +56,14 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.Draw.CurrentNormal[1] = 0.f;
     gl.Draw.CurrentNormal[2] = 1.f;
 
+    gl.Draw.LineWidth = 1.f;
+    gl.Draw.PointSize = 1.f;
+
     gl.Tex.CurrentTexCoords[0] = 0.f;
     gl.Tex.CurrentTexCoords[1] = 0.f;
 
     /** TODO: implement all the OpenGL Capabilities */
     gl.Caps.Texture2D = 0;
-
-    gl.Gs->PSM = GS_PSM_CT32;
-    gl.Gs->PSMZ = GS_PSMZ_16S;
 
     gl.Hints.LineSmooth = GL_DONT_CARE;
     gl.Hints.PolygonSmooth = GL_DONT_CARE;

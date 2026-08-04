@@ -44,6 +44,9 @@ typedef struct ps2_draw_context_t
 
     GLenum CurrentMode;
 
+    GLfloat LineWidth;
+    GLfloat PointSize;
+
     /** used for glDrawArrays */
     PS2_GLArray CurrentVertexArray;
     PS2_GLArray_NoSize CurrentNormalArray;

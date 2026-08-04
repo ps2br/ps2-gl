@@ -22,6 +22,7 @@
 #include "ps2gl/context.h"
 
 #include <debug.h>
+#include <string.h>
 
 void
 glNormal3f (GLfloat nx, GLfloat ny, GLfloat nz)
@@ -183,6 +184,35 @@ glHint (GLenum target, GLenum mode)
         break;
     case GL_FOG_HINT:
         gl.Hints.Fog = mode;
+        break;
+    default:
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+}
+
+void
+glGetFloatv (GLenum pname, GLfloat *params)
+{
+    if (!params)
+    {
+        gl.CurrentError = GL_INVALID_VALUE;
+        return;
+    }
+
+    switch (pname)
+    {
+    case GL_LINE_WIDTH:
+        *params = gl.Draw.LineWidth;
+        break;
+    case GL_POINT_SIZE:
+        *params = gl.Draw.PointSize;
+        break;
+    case GL_MODELVIEW_MATRIX:
+        memcpy (params, gl.Matrix.ModelView, sizeof (gl.Matrix.ModelView));
+        break;
+    case GL_PROJECTION_MATRIX:
+        memcpy (params, gl.Matrix.Projection, sizeof (gl.Matrix.ModelView));
         break;
     default:
         gl.CurrentError = GL_INVALID_ENUM;
