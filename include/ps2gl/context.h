@@ -39,6 +39,7 @@ typedef struct ps2_gl_hints_t
 typedef struct ps2_gl_capabilities_t
 {
     GLboolean Texture2D : 1;
+    GLboolean Scissor : 1;
 
     /** TODO: implement all the OpenGL Capabilities */
 } __attribute__ ((packed)) PS2_GLCapabilities;

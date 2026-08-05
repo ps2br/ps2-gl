@@ -48,12 +48,14 @@ glEnable (GLenum cap)
     case GL_POLYGON_OFFSET_LINE:
     case GL_POLYGON_OFFSET_POINT:
     case GL_POLYGON_SMOOTH:
-    case GL_SCISSOR_TEST:
     case GL_STENCIL_TEST:
         scr_printf ("PS2GL: Capability %d not implemented.\n", cap);
         break;
     case GL_TEXTURE_2D:
         gl.Caps.Texture2D = 1;
+        break;
+    case GL_SCISSOR_TEST:
+        gl.Caps.Scissor = 1;
         break;
     }
 }
@@ -74,12 +76,14 @@ glDisable (GLenum cap)
     case GL_POLYGON_OFFSET_LINE:
     case GL_POLYGON_OFFSET_POINT:
     case GL_POLYGON_SMOOTH:
-    case GL_SCISSOR_TEST:
     case GL_STENCIL_TEST:
         scr_printf ("PS2GL: Capability %d not implemented.\n", cap);
         break;
     case GL_TEXTURE_2D:
         gl.Caps.Texture2D = 0;
+        break;
+    case GL_SCISSOR_TEST:
+        gl.Caps.Scissor = 0;
         break;
     }
 }
@@ -245,4 +249,13 @@ glPolygonMode (GLenum face, GLenum mode)
         gl.CurrentError = GL_INVALID_ENUM;
         return;
     };
+}
+
+void
+glScissor (GLint x, GLint y, GLsizei width, GLsizei height)
+{
+    gl.Draw.Scissor.X = x;
+    gl.Draw.Scissor.Y = y;
+    gl.Draw.Scissor.Width = width;
+    gl.Draw.Scissor.Height = height;
 }

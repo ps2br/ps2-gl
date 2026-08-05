@@ -60,6 +60,10 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.Draw.PointSize = 1.f;
     gl.Draw.Polygon.FrontMode = GL_FILL;
     gl.Draw.Polygon.BackMode = GL_FILL;
+    gl.Draw.Scissor.X = 0;
+    gl.Draw.Scissor.Y = 0;
+    gl.Draw.Scissor.Width = 0;
+    gl.Draw.Scissor.Height = 0;
 
     gl.Tex.CurrentTexCoords[0] = 0.f;
     gl.Tex.CurrentTexCoords[1] = 0.f;

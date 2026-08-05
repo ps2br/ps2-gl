@@ -38,6 +38,12 @@ typedef struct ps2_polygon_t
     GLenum BackMode;
 } PS2_Polygon;
 
+typedef struct ps2_scissor
+{
+    GLint X, Y;
+    GLsizei Width, Height;
+} PS2_Scissor;
+
 #define PS2_DRAW_MAX_VERTICES 4096
 
 typedef struct ps2_draw_context_t
@@ -54,6 +60,7 @@ typedef struct ps2_draw_context_t
     GLfloat PointSize;
 
     PS2_Polygon Polygon;
+    PS2_Scissor Scissor;
 
     /** used for glDrawArrays */
     PS2_GLArray CurrentVertexArray;

@@ -152,6 +152,20 @@ glEnd (void)
     if (gl.Draw.CurrentMode != GL_TRIANGLES)
         return;
 
+    if (gl.Caps.Scissor)
+    {
+        gsKit_set_scissor (
+            gl.Gs, GS_SETREG_SCISSOR (
+                       gl.Draw.Scissor.X,
+                       gl.Draw.Scissor.X + gl.Draw.Scissor.Width - 1,
+                       gl.Draw.Scissor.Y,
+                       gl.Draw.Scissor.Y + gl.Draw.Scissor.Height - 1));
+    }
+    else
+    {
+        gsKit_set_scissor (gl.Gs, GS_SCISSOR_RESET);
+    }
+
     for (int i = 0; i < gl.Draw.VertexCount; i += 3)
     {
         PS2_Vertex *a = &gl.Draw.Vertices[i + 0];
