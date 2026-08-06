@@ -21,7 +21,6 @@
 
 #include <GL/gl.h>
 #include <debug.h>
-#include <gsKit.h>
 #include <math.h>
 #include <math3d.h>
 #include <stddef.h>

@@ -21,26 +21,20 @@
 
 #include <string.h>
 
-#include <GL/gl.h>
-#include <gsKit.h>
-#include <tamtypes.h>
-
 #include "ps2gl/matrix.h"
 
 PS2_GLContext gl;
 
 void
-PS2_GLInit (GSGLOBAL *gs)
+PS2_GLInit (PS2Kit_GSContext *gs)
 {
     memset (&gl, 0, sizeof gl);
     memset (&gl.Draw, 0, sizeof gl.Draw);
     memset (&gl.Tex, 0, sizeof gl.Tex);
 
     gl.Gs = gs;
-    gl.Gs->PSM = GS_PSM_CT32;
-    gl.Gs->PSMZ = GS_PSMZ_16S;
-    gl.ViewportWidth = gs->Width;
-    gl.ViewportHeight = gs->Height;
+    gl.ViewportWidth = gl.Gs->Width;
+    gl.ViewportHeight = gl.Gs->Height;
     gl.Matrix.Mode = GL_MODELVIEW;
     gl.CurrentError = 0;
 

@@ -18,7 +18,7 @@
  */
 
 #include <GL/gl.h>
-#include <gsKit.h>
+
 #include <tamtypes.h>
 
 #include "ps2gl/context.h"

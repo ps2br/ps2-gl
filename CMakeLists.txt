@@ -18,9 +18,7 @@ target_include_directories(ps2gl PRIVATE include/)
 
 target_link_libraries(ps2gl PRIVATE
     m
-    math3d
-    gskit
-    gskit_toolkit)
+    math3d)
 
 install(
     TARGETS ps2gl

@@ -21,11 +21,12 @@
 #define ps2gl_context_h
 
 #include <GL/gl.h>
-#include <gsKit.h>
 
 #include "ps2gl/draw.h"
 #include "ps2gl/matrix.h"
 #include "ps2gl/texture.h"
+
+#include <ps2Kit.h>
 
 typedef struct ps2_gl_hints_t
 {
@@ -45,7 +46,7 @@ typedef struct ps2_gl_capabilities_t
 
 typedef struct ps2_gl_context_t
 {
-    GSGLOBAL *Gs;
+    PS2Kit_GSContext *Gs;
 
     GLint ViewportX;
     GLint ViewportY;
@@ -68,7 +69,7 @@ extern PS2_GLContext gl;
  *   so they should be all initialized before calling this.
  * Every call to @PS2_GLInit should have it PS2_GLShutdown at end of usage.
  */
-extern void PS2_GLInit (GSGLOBAL *);
+extern void PS2_GLInit (PS2Kit_GSContext *);
 extern void PS2_GLShutdown (void);
 
 #endif

@@ -21,12 +21,13 @@
 #define ps2gl_texture_h
 
 #include <GL/gl.h>
-#include <gsKit.h>
+#include <tamtypes.h>
 
 #include "ps2gl/types.h"
 
 #define PS2_TEXTURES_MAX 256
 
+typedef u8 GSTEXTURE; /** FIXME!!! */
 typedef struct ps2_texture_t
 {
     GSTEXTURE GTexture;
