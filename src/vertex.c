@@ -22,7 +22,7 @@
 #include "ps2gl/context.h"
 
 static void
-PS2_SetVertexState (PS2_Vertex *v)
+PS2GL_SetVertexState (PS2GL_Vertex *v)
 {
     v->Color[0] = gl.Draw.CurrentColor[0];
     v->Color[1] = gl.Draw.CurrentColor[1];
@@ -40,15 +40,15 @@ PS2_SetVertexState (PS2_Vertex *v)
 void
 glVertex2i (int x, int y)
 {
-    if (gl.Draw.VertexCount >= PS2_DRAW_MAX_VERTICES)
+    if (gl.Draw.VertexCount >= PS2GL_DRAW_MAX_VERTICES)
         return;
 
-    PS2_Vertex *v = &gl.Draw.Vertices[gl.Draw.VertexCount++];
+    PS2GL_Vertex *v = &gl.Draw.Vertices[gl.Draw.VertexCount++];
     v->Coords[0] = x;
     v->Coords[1] = y;
     v->Coords[2] = 0;
 
-    PS2_SetVertexState (v);
+    PS2GL_SetVertexState (v);
 }
 
 void
@@ -60,15 +60,15 @@ glVertex2f (GLfloat x, GLfloat y)
 void
 glVertex3f (GLfloat x, GLfloat y, GLfloat z)
 {
-    if (gl.Draw.VertexCount >= PS2_DRAW_MAX_VERTICES)
+    if (gl.Draw.VertexCount >= PS2GL_DRAW_MAX_VERTICES)
         return;
 
-    PS2_Vertex *v = &gl.Draw.Vertices[gl.Draw.VertexCount++];
+    PS2GL_Vertex *v = &gl.Draw.Vertices[gl.Draw.VertexCount++];
     v->Coords[0] = x;
     v->Coords[1] = y;
     v->Coords[2] = z;
 
-    PS2_SetVertexState (v);
+    PS2GL_SetVertexState (v);
 }
 
 void

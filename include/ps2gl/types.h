@@ -22,9 +22,9 @@
 
 #include <GL/gl.h>
 
-typedef GLfloat PS2_3DCoords[3];
-typedef GLfloat PS2_2DCoords[2];
-typedef GLfloat PS2_Color[4];
+typedef GLfloat PS2GL_3DCoords[3];
+typedef GLfloat PS2GL_2DCoords[2];
+typedef GLfloat PS2GL_Color[4];
 
 typedef struct ps2_gl_array_t
 {
@@ -33,7 +33,7 @@ typedef struct ps2_gl_array_t
     GLsizei Stride;
     const void *Pointer;
     GLboolean Enabled : 1;
-} __attribute__ ((packed)) PS2_GLArray;
+} __attribute__ ((packed)) PS2GL_Array;
 
 typedef struct ps2_gl_array_no_size_t
 {
@@ -41,7 +41,7 @@ typedef struct ps2_gl_array_no_size_t
     GLsizei Stride;
     const void *Pointer;
     GLboolean Enabled : 1;
-} __attribute__ ((packed)) PS2_GLArray_NoSize;
+} __attribute__ ((packed)) PS2GL_Array_NoSize;
 
 
 #endif

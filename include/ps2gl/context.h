@@ -34,17 +34,17 @@ typedef struct ps2_gl_hints_t
     GLenum PointSmooth;
     GLenum Fog;
     GLenum PerpectiveCorrection;
-} PS2_GLHints;
+} PS2GL_Hints;
 
-typedef struct ps2_gl_capabilities_t
+typedef struct ps2gl_capabilities_t
 {
     GLboolean Texture2D : 1;
     GLboolean Scissor : 1;
 
     /** TODO: implement all the OpenGL Capabilities */
-} __attribute__ ((packed)) PS2_GLCapabilities;
+} __attribute__ ((packed)) PS2GL_Capabilities;
 
-typedef struct ps2_gl_context_t
+typedef struct ps2gl_context_t
 {
     GSGLOBAL *Gs;
 
@@ -54,22 +54,22 @@ typedef struct ps2_gl_context_t
     GLsizei ViewportHeight;
     GLenum CurrentError;
 
-    PS2_GLCapabilities Caps;
-    PS2_GLHints Hints;
-    PS2_DrawContext Draw;
-    PS2_MatrixContext Matrix;
-    PS2_TextureContext Tex;
-} PS2_GLContext;
+    PS2GL_Capabilities Caps;
+    PS2GL_Hints Hints;
+    PS2GL_DrawContext Draw;
+    PS2GL_MatrixContext Matrix;
+    PS2GL_TextureContext Tex;
+} PS2GL_Context;
 
-extern PS2_GLContext gl;
+extern PS2GL_Context gl;
 
 /**
  * Initilazes the GL State.
  * This function depends on @gsKit, @dmaKit and @dmaKit_chan
  *   so they should be all initialized before calling this.
- * Every call to @PS2_GLInit should have it PS2_GLShutdown at end of usage.
+ * Every call to @PS2GL_Init should have it PS2GL_Shutdown at end of usage.
  */
-extern void PS2_GLInit (GSGLOBAL *);
-extern void PS2_GLShutdown (void);
+extern void PS2GL_Init (GSGLOBAL *);
+extern void PS2GL_Shutdown (void);
 
 #endif

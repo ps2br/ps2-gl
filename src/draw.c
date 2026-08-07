@@ -39,21 +39,21 @@ glBegin (GLenum mode)
 #define COLOR8(x) ((u8)(fminf (fmaxf ((x), 0.0f), 1.0f) * 255.0f))
 
 static void
-PS2_DrawFilledTriangleWithTexture (PS2_Vertex *va, PS2_Vertex *vb,
-                                   PS2_Vertex *vc, PS2_3DCoords *a,
-                                   PS2_3DCoords *b, PS2_3DCoords *c)
+PS2GL_DrawFilledTriangleWithTexture (PS2GL_Vertex *va, PS2GL_Vertex *vb,
+                                   PS2GL_Vertex *vc, PS2GL_3DCoords *a,
+                                   PS2GL_3DCoords *b, PS2GL_3DCoords *c)
 {
     GSTEXTURE *texture = &gl.Tex.Textures[gl.Tex.BoundTexture].GTexture;
 
-    PS2_2DCoords tex_a;
+    PS2GL_2DCoords tex_a;
     tex_a[0] = va->TexCoords[0] * texture->Width;
     tex_a[1] = va->TexCoords[1] * texture->Height;
 
-    PS2_2DCoords tex_b;
+    PS2GL_2DCoords tex_b;
     tex_b[0] = vb->TexCoords[0] * texture->Width;
     tex_b[1] = vb->TexCoords[1] * texture->Height;
 
-    PS2_2DCoords tex_c;
+    PS2GL_2DCoords tex_c;
     tex_c[0] = vc->TexCoords[0] * texture->Width;
     tex_c[1] = vc->TexCoords[1] * texture->Height;
 
@@ -79,13 +79,13 @@ PS2_DrawFilledTriangleWithTexture (PS2_Vertex *va, PS2_Vertex *vb,
 }
 
 static void
-PS2_DrawFilledTriangle (PS2_Vertex *va, PS2_Vertex *vb, PS2_Vertex *vc,
-                        PS2_3DCoords *a, PS2_3DCoords *b, PS2_3DCoords *c)
+PS2GL_DrawFilledTriangle (PS2GL_Vertex *va, PS2GL_Vertex *vb, PS2GL_Vertex *vc,
+                        PS2GL_3DCoords *a, PS2GL_3DCoords *b, PS2GL_3DCoords *c)
 {
     /** with texture */
     if (gl.Caps.Texture2D && gl.Tex.BoundTexture != 0)
     {
-        PS2_DrawFilledTriangleWithTexture (va, vb, vc, a, b, c);
+        PS2GL_DrawFilledTriangleWithTexture (va, vb, vc, a, b, c);
         return;
     }
 
@@ -106,13 +106,13 @@ PS2_DrawFilledTriangle (PS2_Vertex *va, PS2_Vertex *vb, PS2_Vertex *vc,
 }
 
 static void
-PS2_DrawTriangle (PS2_Vertex *va, PS2_Vertex *vb, PS2_Vertex *vc,
-                  PS2_3DCoords *a, PS2_3DCoords *b, PS2_3DCoords *c,
+PS2GL_DrawTriangle (PS2GL_Vertex *va, PS2GL_Vertex *vb, PS2GL_Vertex *vc,
+                  PS2GL_3DCoords *a, PS2GL_3DCoords *b, PS2GL_3DCoords *c,
                   GLenum polygon_mode)
 {
     if (polygon_mode == GL_FILL)
     {
-        PS2_DrawFilledTriangle (va, vb, vc, a, b, c);
+        PS2GL_DrawFilledTriangle (va, vb, vc, a, b, c);
         return;
     }
 
@@ -124,12 +124,12 @@ PS2_DrawTriangle (PS2_Vertex *va, PS2_Vertex *vb, PS2_Vertex *vc,
     {
     }
 
-    scr_printf ("PS2GL: PS2_DrawTriangle, Mode %d not implemented.",
+    scr_printf ("PS2GL: PS2GL_DrawTriangle, Mode %d not implemented.",
                 polygon_mode);
 }
 
 static void
-PS2_ApplyLighting (PS2_Vertex *v)
+PS2GL_ApplyLighting (PS2GL_Vertex *v)
 {
     float lx = 0.f;
     float ly = 0.f;
@@ -168,19 +168,19 @@ glEnd (void)
 
     for (int i = 0; i < gl.Draw.VertexCount; i += 3)
     {
-        PS2_Vertex *a = &gl.Draw.Vertices[i + 0];
-        PS2_Vertex *b = &gl.Draw.Vertices[i + 1];
-        PS2_Vertex *c = &gl.Draw.Vertices[i + 2];
+        PS2GL_Vertex *a = &gl.Draw.Vertices[i + 0];
+        PS2GL_Vertex *b = &gl.Draw.Vertices[i + 1];
+        PS2GL_Vertex *c = &gl.Draw.Vertices[i + 2];
 
-        PS2_3DCoords _a;
-        PS2_3DCoords _b;
-        PS2_3DCoords _c;
+        PS2GL_3DCoords _a;
+        PS2GL_3DCoords _b;
+        PS2GL_3DCoords _c;
 
-        PS2_TransformVertex (a->Coords[0], a->Coords[1], a->Coords[2], &_a[0],
+        PS2GL_TransformVertex (a->Coords[0], a->Coords[1], a->Coords[2], &_a[0],
                              &_a[2], &_a[2]);
-        PS2_TransformVertex (b->Coords[0], b->Coords[1], b->Coords[2], &_b[0],
+        PS2GL_TransformVertex (b->Coords[0], b->Coords[1], b->Coords[2], &_b[0],
                              &_b[1], &_b[2]);
-        PS2_TransformVertex (c->Coords[0], c->Coords[1], c->Coords[2], &_c[0],
+        PS2GL_TransformVertex (c->Coords[0], c->Coords[1], c->Coords[2], &_c[0],
                              &_c[1], &_c[2]);
 
         _a[0] = (_a[0] + 1.0f) * 0.5f * gl.ViewportWidth;
@@ -196,12 +196,12 @@ glEnd (void)
         _c[2] = ((_c[2]) + 1.f) * .5f;
 
         /** make a copy to not modify the og vertex*/
-        PS2_Vertex va = *a;
-        PS2_Vertex vb = *b;
-        PS2_Vertex vc = *c;
-        PS2_ApplyLighting (&va);
-        PS2_ApplyLighting (&vb);
-        PS2_ApplyLighting (&vc);
+        PS2GL_Vertex va = *a;
+        PS2GL_Vertex vb = *b;
+        PS2GL_Vertex vc = *c;
+        PS2GL_ApplyLighting (&va);
+        PS2GL_ApplyLighting (&vb);
+        PS2GL_ApplyLighting (&vc);
 
         float cross = (_b[0] - _a[0]) * (_c[1] - _a[1])
                       - (_b[1] - _a[1]) * (_c[0] - _a[0]);
@@ -209,12 +209,12 @@ glEnd (void)
         GLenum mode
             = front ? gl.Draw.Polygon.FrontMode : gl.Draw.Polygon.BackMode;
 
-        PS2_DrawTriangle (&va, &vb, &vc, &_a, &_b, &_c, mode);
+        PS2GL_DrawTriangle (&va, &vb, &vc, &_a, &_b, &_c, mode);
     }
 }
 
 static void
-PS2_LoadColorArr (int index)
+PS2GL_LoadColorArr (int index)
 {
     const char *base = gl.Draw.CurrentColorArray.Pointer;
 
@@ -235,7 +235,7 @@ PS2_LoadColorArr (int index)
 }
 
 static void
-PS2_LoadTexCoordsArr (int index)
+PS2GL_LoadTexCoordsArr (int index)
 {
     const char *base = gl.Tex.CurrentTexCoordsArray.Pointer;
 
@@ -253,7 +253,7 @@ PS2_LoadTexCoordsArr (int index)
 }
 
 static void
-PS2_LoadNormalArr (int index)
+PS2GL_LoadNormalArr (int index)
 {
     const char *base = gl.Draw.CurrentNormalArray.Pointer;
 
@@ -266,7 +266,7 @@ PS2_LoadNormalArr (int index)
 }
 
 static void
-PS2_LoadVertexArr (int index)
+PS2GL_LoadVertexArr (int index)
 {
     const char *base = gl.Draw.CurrentVertexArray.Pointer;
 
@@ -300,15 +300,15 @@ glDrawArrays (GLenum mode, GLint first, GLsizei count)
     {
         int idx = first + i;
         if (gl.Draw.CurrentColorArray.Enabled)
-            PS2_LoadColorArr (idx);
+            PS2GL_LoadColorArr (idx);
 
         if (gl.Tex.CurrentTexCoordsArray.Enabled)
-            PS2_LoadTexCoordsArr (idx);
+            PS2GL_LoadTexCoordsArr (idx);
 
         if (gl.Draw.CurrentNormalArray.Enabled)
-            PS2_LoadNormalArr (idx);
+            PS2GL_LoadNormalArr (idx);
 
-        PS2_LoadVertexArr (idx);
+        PS2GL_LoadVertexArr (idx);
     }
     glEnd ();
 }
@@ -343,15 +343,15 @@ glDrawElements (GLenum mode, GLsizei count, GLenum type, const GLvoid *indices)
         }
 
         if (gl.Draw.CurrentColorArray.Enabled)
-            PS2_LoadColorArr (idx);
+            PS2GL_LoadColorArr (idx);
 
         if (gl.Tex.CurrentTexCoordsArray.Enabled)
-            PS2_LoadTexCoordsArr (idx);
+            PS2GL_LoadTexCoordsArr (idx);
 
         if (gl.Draw.CurrentNormalArray.Enabled)
-            PS2_LoadNormalArr (idx);
+            PS2GL_LoadNormalArr (idx);
 
-        PS2_LoadVertexArr (idx);
+        PS2GL_LoadVertexArr (idx);
     }
     glEnd ();
 }

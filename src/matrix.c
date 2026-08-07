@@ -27,13 +27,13 @@
 #include "ps2gl/context.h"
 
 void
-PS2_MatrixIdentity (mat4x4 m)
+PS2GL_MatrixIdentity (mat4x4 m)
 {
     mat4x4_identity(m);
 }
 
 void
-PS2_TransformVertex(float x, float y, float z,
+PS2GL_TransformVertex(float x, float y, float z,
                     float *outX, float *outY, float *outZ)
 {
     vec4 v = { x, y, z, 1.0f };
@@ -55,7 +55,7 @@ PS2_TransformVertex(float x, float y, float z,
     *outZ = clip[2];
 }
 
-mat4x4 *PS2_CurrentMatrix (void)
+mat4x4 *PS2GL_CurrentMatrix (void)
 {
     if (gl.Matrix.Mode == GL_PROJECTION)
         return &gl.Matrix.Projection;
@@ -64,7 +64,7 @@ mat4x4 *PS2_CurrentMatrix (void)
 }
 
 void
-PS2_MatrixMultiply (mat4x4 out, const mat4x4 a, const mat4x4 b)
+PS2GL_MatrixMultiply (mat4x4 out, const mat4x4 a, const mat4x4 b)
 {
     mat4x4_mul(out, a, b);
 }
@@ -85,11 +85,11 @@ glLoadIdentity (void)
 {
     if (gl.Matrix.Mode == GL_MODELVIEW)
     {
-        PS2_MatrixIdentity (gl.Matrix.ModelView);
+        PS2GL_MatrixIdentity (gl.Matrix.ModelView);
     }
     else if (gl.Matrix.Mode == GL_PROJECTION)
     {
-        PS2_MatrixIdentity (gl.Matrix.Projection);
+        PS2GL_MatrixIdentity (gl.Matrix.Projection);
     }
 }
 
@@ -132,7 +132,7 @@ glMultMatrixf (const GLfloat *m)
     mat4x4 temp;
     memcpy(temp, m, sizeof(temp));
 
-    mat4x4 *current = PS2_CurrentMatrix();
+    mat4x4 *current = PS2GL_CurrentMatrix();
 
     mat4x4 result;
     mat4x4_mul(result, *current, temp);

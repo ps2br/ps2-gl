@@ -34,7 +34,7 @@ glGenTextures (GLsizei n, GLuint *textures)
 {
     for (GLsizei i = 0; i < n; i++)
     {
-        for (int id = 1; id < PS2_TEXTURES_MAX; id++)
+        for (int id = 1; id < PS2GL_TEXTURES_MAX; id++)
         {
             if (!gl.Tex.Textures[id].Used)
             {
@@ -55,10 +55,10 @@ glDeleteTextures (GLsizei n, const GLuint *textures)
         if (id == 0)
             continue;
 
-        if (id >= PS2_TEXTURES_MAX)
+        if (id >= PS2GL_TEXTURES_MAX)
             continue;
 
-        PS2_Texture *tex = &gl.Tex.Textures[id];
+        PS2GL_Texture *tex = &gl.Tex.Textures[id];
         free (tex->GTexture.Mem); /** delete from RAM */
         tex->Used = 0;
         if (gl.Tex.BoundTexture == id)
@@ -69,7 +69,7 @@ glDeleteTextures (GLsizei n, const GLuint *textures)
 void
 glBindTexture (GLenum target, GLuint texture)
 {
-    if (texture >= PS2_TEXTURES_MAX)
+    if (texture >= PS2GL_TEXTURES_MAX)
     {
         gl.CurrentError = GL_STACK_OVERFLOW;
         return;
@@ -88,7 +88,7 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
     if (gl.Tex.BoundTexture == 0)
         return;
 
-    PS2_Texture *tex = &gl.Tex.Textures[gl.Tex.BoundTexture];
+    PS2GL_Texture *tex = &gl.Tex.Textures[gl.Tex.BoundTexture];
     tex->Width = width;
     tex->Height = height;
 
@@ -120,7 +120,7 @@ glTexParameteri (GLenum target, GLenum pname, GLint param)
     if (gl.Tex.BoundTexture == 0)
         return;
 
-    PS2_Texture *tex = &gl.Tex.Textures[gl.Tex.BoundTexture];
+    PS2GL_Texture *tex = &gl.Tex.Textures[gl.Tex.BoundTexture];
     switch (pname)
     {
     case GL_TEXTURE_MIN_FILTER:

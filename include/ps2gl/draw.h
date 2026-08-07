@@ -26,46 +26,46 @@
 
 typedef struct ps2_vertex_t
 {
-    PS2_3DCoords Coords;
-    PS2_3DCoords Normal;
-    PS2_2DCoords TexCoords;
-    PS2_Color Color;
-} PS2_Vertex;
+    PS2GL_3DCoords Coords;
+    PS2GL_3DCoords Normal;
+    PS2GL_2DCoords TexCoords;
+    PS2GL_Color Color;
+} PS2GL_Vertex;
 
 typedef struct ps2_polygon_t
 {
     GLenum FrontMode;
     GLenum BackMode;
-} PS2_Polygon;
+} PS2GL_Polygon;
 
 typedef struct ps2_scissor
 {
     GLint X, Y;
     GLsizei Width, Height;
-} PS2_Scissor;
+} PS2GL_Scissor;
 
-#define PS2_DRAW_MAX_VERTICES 4096
+#define PS2GL_DRAW_MAX_VERTICES 4096
 
 typedef struct ps2_draw_context_t
 {
-    PS2_Vertex Vertices[PS2_DRAW_MAX_VERTICES];
+    PS2GL_Vertex Vertices[PS2GL_DRAW_MAX_VERTICES];
     int VertexCount;
 
-    PS2_Color CurrentColor;
-    PS2_3DCoords CurrentNormal;
+    PS2GL_Color CurrentColor;
+    PS2GL_3DCoords CurrentNormal;
 
     GLenum CurrentMode;
 
     GLfloat LineWidth;
     GLfloat PointSize;
 
-    PS2_Polygon Polygon;
-    PS2_Scissor Scissor;
+    PS2GL_Polygon Polygon;
+    PS2GL_Scissor Scissor;
 
     /** used for glDrawArrays */
-    PS2_GLArray CurrentVertexArray;
-    PS2_GLArray_NoSize CurrentNormalArray;
-    PS2_GLArray CurrentColorArray;
-} PS2_DrawContext;
+    PS2GL_Array CurrentVertexArray;
+    PS2GL_Array_NoSize CurrentNormalArray;
+    PS2GL_Array CurrentColorArray;
+} PS2GL_DrawContext;
 
 #endif

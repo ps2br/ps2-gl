@@ -27,10 +27,10 @@
 
 #include "ps2gl/matrix.h"
 
-PS2_GLContext gl;
+PS2GL_Context gl;
 
 void
-PS2_GLInit (GSGLOBAL *gs)
+PS2GL_Init (GSGLOBAL *gs)
 {
     memset (&gl, 0, sizeof gl);
     memset (&gl.Draw, 0, sizeof gl.Draw);
@@ -44,8 +44,8 @@ PS2_GLInit (GSGLOBAL *gs)
     gl.Matrix.Mode = GL_MODELVIEW;
     gl.CurrentError = 0;
 
-    PS2_MatrixIdentity (gl.Matrix.ModelView);
-    PS2_MatrixIdentity (gl.Matrix.Projection);
+    PS2GL_MatrixIdentity (gl.Matrix.ModelView);
+    PS2GL_MatrixIdentity (gl.Matrix.Projection);
 
     gl.Draw.CurrentColor[0] = 0.f;
     gl.Draw.CurrentColor[1] = 0.f;
@@ -79,7 +79,7 @@ PS2_GLInit (GSGLOBAL *gs)
 }
 
 void
-PS2_GLShutdown (void)
+PS2GL_Shutdown (void)
 {
     /** actually there's nothing to clean yet */
     gl.Gs = 0;

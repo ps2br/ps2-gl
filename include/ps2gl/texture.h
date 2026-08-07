@@ -25,9 +25,9 @@
 
 #include "ps2gl/types.h"
 
-#define PS2_TEXTURES_MAX 256
+#define PS2GL_TEXTURES_MAX 256
 
-typedef struct ps2_texture_t
+typedef struct ps2gl_texture_t
 {
     GSTEXTURE GTexture;
     int Width, Height;
@@ -35,16 +35,16 @@ typedef struct ps2_texture_t
 
     GLint MinFilter;
     GLint MagFilter;
-} PS2_Texture;
+} PS2GL_Texture;
 
 typedef struct ps2_texture_context_t
 {
-    PS2_Texture Textures[PS2_TEXTURES_MAX];
+    PS2GL_Texture Textures[PS2GL_TEXTURES_MAX];
 
-    PS2_2DCoords CurrentTexCoords; // for immediate mode
+    PS2GL_2DCoords CurrentTexCoords; // for immediate mode
     GLuint BoundTexture;
 
-    PS2_GLArray CurrentTexCoordsArray;
-} PS2_TextureContext;
+    PS2GL_Array CurrentTexCoordsArray;
+} PS2GL_TextureContext;
 
 #endif
