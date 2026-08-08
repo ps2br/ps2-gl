@@ -21,10 +21,10 @@
 #define ps2gl_context_h
 
 #include <GL/gl.h>
-#include <gsKit.h>
 
 #include "ps2gl/draw.h"
 #include "ps2gl/matrix.h"
+#include "ps2gl/render.h"
 #include "ps2gl/texture.h"
 
 typedef struct ps2_gl_hints_t
@@ -46,7 +46,7 @@ typedef struct ps2gl_capabilities_t
 
 typedef struct ps2gl_context_t
 {
-    GSGLOBAL *Gs;
+    PS2GL_Renderer *Renderer;
 
     GLint ViewportX;
     GLint ViewportY;
@@ -65,11 +65,9 @@ extern PS2GL_Context gl;
 
 /**
  * Initilazes the GL State.
- * This function depends on @gsKit, @dmaKit and @dmaKit_chan
- *   so they should be all initialized before calling this.
  * Every call to @PS2GL_Init should have it PS2GL_Shutdown at end of usage.
  */
-extern void PS2GL_Init (GSGLOBAL *);
+extern void PS2GL_Init (void);
 extern void PS2GL_Shutdown (void);
 
 #endif

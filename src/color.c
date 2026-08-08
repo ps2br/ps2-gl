@@ -24,18 +24,18 @@
 void
 glColor3f (GLfloat red, GLfloat green, GLfloat blue)
 {
-    gl.Draw.CurrentColor[0] = red * 255;
-    gl.Draw.CurrentColor[1] = green * 255;
-    gl.Draw.CurrentColor[2] = blue * 255;
+    gl.Draw.CurrentColor[0] = red;
+    gl.Draw.CurrentColor[1] = green;
+    gl.Draw.CurrentColor[2] = blue;
 }
 
 void
 glColor4f (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 {
-    gl.Draw.CurrentColor[0] = red * 255;
-    gl.Draw.CurrentColor[1] = green * 255;
-    gl.Draw.CurrentColor[2] = blue * 255;
-    gl.Draw.CurrentColor[3] = alpha * 255;
+    gl.Draw.CurrentColor[0] = red;
+    gl.Draw.CurrentColor[1] = green;
+    gl.Draw.CurrentColor[2] = blue;
+    gl.Draw.CurrentColor[3] = alpha;
 }
 
 void

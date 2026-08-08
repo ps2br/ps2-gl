@@ -18,10 +18,10 @@
  */
 
 #include <GL/gl.h>
-#include <gsKit.h>
 #include <tamtypes.h>
 
 #include "ps2gl/context.h"
+#include "ps2gl/render.h"
 
 void
 glClearColor (GLclampf r, GLclampf g, GLclampf b, GLclampf a)
@@ -56,10 +56,5 @@ void
 glClear (GLbitfield mask)
 {
     if (mask & GL_COLOR_BUFFER_BIT)
-    {
-        u64 color
-            = GS_SETREG_RGBAQ (gl.Draw.CurrentColor[0], gl.Draw.CurrentColor[1],
-                               gl.Draw.CurrentColor[2], gl.Draw.CurrentColor[3], 0x00);
-        gsKit_clear (gl.Gs, color);
-    }
+        PS2GL_ClearRenderColor (gl.Renderer, gl.Draw.CurrentColor);
 }

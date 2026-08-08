@@ -24,7 +24,7 @@
 
 typedef GLfloat PS2GL_3DCoords[3];
 typedef GLfloat PS2GL_2DCoords[2];
-typedef GLfloat PS2GL_Color[4];
+typedef GLclampf PS2GL_Color[4];
 
 typedef struct ps2_gl_array_t
 {
@@ -43,5 +43,12 @@ typedef struct ps2_gl_array_no_size_t
     GLboolean Enabled : 1;
 } __attribute__ ((packed)) PS2GL_Array_NoSize;
 
+typedef struct ps2_vertex_t
+{
+    PS2GL_3DCoords Coords;
+    PS2GL_3DCoords Normal;
+    PS2GL_2DCoords TexCoords;
+    PS2GL_Color Color;
+} PS2GL_Vertex;
 
 #endif
