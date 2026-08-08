@@ -19,15 +19,11 @@
 
 #include "ps2gl/texture.h"
 
-#include <GL/gl.h>
-#include <gsCore.h>
-#include <gsInit.h>
-#include <gsTexture.h>
-#include <gsToolkit.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <tamtypes.h>
 
 #include "ps2gl/context.h"
+#include "ps2gl/render.h"
 
 void
 glGenTextures (GLsizei n, GLuint *textures)
@@ -59,8 +55,8 @@ glDeleteTextures (GLsizei n, const GLuint *textures)
             continue;
 
         PS2GL_Texture *tex = &gl.Tex.Textures[id];
-        free (tex->GTexture.Mem); /** delete from RAM */
         tex->Used = 0;
+        free (tex->ImplTexture);
         if (gl.Tex.BoundTexture == id)
             gl.Tex.BoundTexture = 0;
     }
@@ -78,8 +74,6 @@ glBindTexture (GLenum target, GLuint texture)
     gl.Tex.BoundTexture = texture;
 }
 
-extern int gsKit_texture_finish (GSGLOBAL *gsGlobal, GSTEXTURE *Texture);
-
 void
 glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
               GLsizei height, GLint border, GLenum format, GLenum type,
@@ -92,26 +86,22 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
     tex->Width = width;
     tex->Height = height;
 
-    /** gsKit texture needs to be filled before "uploading" it */
-    GSTEXTURE *gtex = &tex->GTexture;
-    gtex->Width = width;
-    gtex->Height = height;
-
+    PS2GL_TexturePSM psm;
     if (format == GL_RGBA)
-        gtex->PSM = GS_PSM_CT32;
+        psm = PS2GL_PSM_32;
     else if (format == GL_RGB)
-        gtex->PSM = GS_PSM_CT24;
+        psm = PS2GL_PSM_24;
+    tex->ImplTexture = gl.Renderer->CreateImplTexture (
+        width, height, psm,
+        (tex->MinFilter == GL_NEAREST) ? PS2GL_FILTER_NEAREST
+                                       : PS2GL_FILTER_LINEAR);
 
-    gtex->Filter = (tex->MinFilter == GL_NEAREST) ? GS_FILTER_NEAREST
-                                                  : GS_FILTER_LINEAR;
-
-    u32 tex_size = gsKit_texture_size (gtex->Width, gtex->Height, gtex->PSM);
-    gtex->Mem = memalign (128, tex_size);
-
+    void *mem = gl.Renderer->AllocateImplTextureMem (tex->ImplTexture);
+    u32 size = gl.Renderer->GetImplTextureSize (tex->ImplTexture);
     if (type == GL_UNSIGNED_BYTE)
-        memcpy (gtex->Mem, pixels, tex_size);
+        memcpy (mem, pixels, size);
 
-    gsKit_texture_finish (gl.Gs, gtex);
+    gl.Renderer->FinishImplTextureCreation (gl.Renderer, tex->ImplTexture);
 }
 
 void
@@ -126,16 +116,20 @@ glTexParameteri (GLenum target, GLenum pname, GLint param)
     case GL_TEXTURE_MIN_FILTER:
         tex->MinFilter = param;
         if (param == GL_NEAREST)
-            tex->GTexture.Filter = GS_FILTER_NEAREST;
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_NEAREST);
         else
-            tex->GTexture.Filter = GS_FILTER_LINEAR;
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_LINEAR);
         break;
     case GL_TEXTURE_MAG_FILTER:
         tex->MagFilter = param;
         if (param == GL_NEAREST)
-            tex->GTexture.Filter = GS_FILTER_NEAREST;
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_NEAREST);
         else
-            tex->GTexture.Filter = GS_FILTER_LINEAR;
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_LINEAR);
         break;
     };
 }

@@ -21,15 +21,15 @@
 #define ps2gl_texture_h
 
 #include <GL/gl.h>
-#include <gsKit.h>
 
+#include "ps2gl/render.h"
 #include "ps2gl/types.h"
 
 #define PS2GL_TEXTURES_MAX 256
 
 typedef struct ps2gl_texture_t
 {
-    GSTEXTURE GTexture;
+    PS2GL_ImplTexture *ImplTexture;
     int Width, Height;
     int Used;
 

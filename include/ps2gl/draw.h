@@ -24,14 +24,6 @@
 
 #include "ps2gl/types.h"
 
-typedef struct ps2_vertex_t
-{
-    PS2GL_3DCoords Coords;
-    PS2GL_3DCoords Normal;
-    PS2GL_2DCoords TexCoords;
-    PS2GL_Color Color;
-} PS2GL_Vertex;
-
 typedef struct ps2_polygon_t
 {
     GLenum FrontMode;

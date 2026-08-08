@@ -22,25 +22,24 @@
 #include <string.h>
 
 #include <GL/gl.h>
-#include <gsKit.h>
 #include <tamtypes.h>
 
 #include "ps2gl/matrix.h"
+#include "ps2gl/render.h"
 
 PS2GL_Context gl;
 
 void
-PS2GL_Init (GSGLOBAL *gs)
+PS2GL_Init (PS2GL_Renderer *r)
 {
     memset (&gl, 0, sizeof gl);
     memset (&gl.Draw, 0, sizeof gl.Draw);
     memset (&gl.Tex, 0, sizeof gl.Tex);
 
-    gl.Gs = gs;
-    gl.Gs->PSM = GS_PSM_CT32;
-    gl.Gs->PSMZ = GS_PSMZ_16S;
-    gl.ViewportWidth = gs->Width;
-    gl.ViewportHeight = gs->Height;
+    gl.Renderer = r;
+
+    gl.ViewportWidth = r->GetWidth (r);
+    gl.ViewportHeight = r->GetHeight (r);
     gl.Matrix.Mode = GL_MODELVIEW;
     gl.CurrentError = 0;
 
@@ -81,6 +80,4 @@ PS2GL_Init (GSGLOBAL *gs)
 void
 PS2GL_Shutdown (void)
 {
-    /** actually there's nothing to clean yet */
-    gl.Gs = 0;
 }

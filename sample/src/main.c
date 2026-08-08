@@ -1,12 +1,13 @@
+#include "ps2gl/render.h"
 #include <GL/gl.h>
 #include <gsKit.h>
-#include <ps2Kit.h>
+#include <ps2gl/context.h>
 
 static GLfloat vertices[] = {
     -.5f, -.5f, 0.f, // left bottom
-     .5f, -.5f, 0.f, // right bottom
-     .5f,  .5f, 0.f, // right top
-    -.5f,  .5f, 0.f  // left top
+    .5f,  -.5f, 0.f, // right bottom
+    .5f,  .5f,  0.f, // right top
+    -.5f, .5f,  0.f  // left top
 };
 
 static GLfloat texcoords[] = {
@@ -24,9 +25,11 @@ static GLubyte indices[] = {
 int
 main (void)
 {
-    GSGLOBAL *gs = PS2Kit_InitPS2GL ();
+    PS2GL_Renderer *renderer = PS2GL_InitGSKitRenderer ();
+    PS2GL_Init (renderer);
 
-    glViewport (0, 0, gs->Width, gs->Height);
+    glViewport (0, 0, renderer->GetWidth (renderer),
+                renderer->GetHeight (renderer));
 
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
@@ -79,14 +82,13 @@ main (void)
 
         glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 
-        PS2Kit_SwapBuffers (gs);
-        PS2Kit_QeueExec (gs);
+        gl.Renderer->SwapBuffers (gl.Renderer);
 
         angle += 2.f;
         if (angle >= 360.f)
             angle = 0.f;
     }
 
-    PS2Kit_Shutdown (gs);
+    PS2GL_Shutdown ();
     return 0;
 }
