@@ -44,11 +44,11 @@ PS2GL_DrawTriangle (PS2GL_Vertex *a, PS2GL_Vertex *b, PS2GL_Vertex *c,
         if (gl.Caps.Texture2D && gl.Tex.BoundTexture != 0)
         {
             PS2GL_Texture *texture = &gl.Tex.Textures[gl.Tex.BoundTexture];
-            PS2GL_DrawFilledTexturedTriangle (gl.Renderer, a, b, c,
-                                              texture->ImplTexture);
+            gl.Renderer->DrawFilledTexturedTriangle (gl.Renderer, a, b, c,
+                                                     texture->ImplTexture);
             return;
         }
-        PS2GL_DrawFilledTriangle (gl.Renderer, a, b, c);
+        gl.Renderer->DrawFilledTriangle (gl.Renderer, a, b, c);
         return;
     }
 
@@ -89,11 +89,11 @@ glEnd (void)
         return;
 
     if (gl.Caps.Scissor)
-        PS2GL_SetRendererScissor (gl.Renderer, gl.Draw.Scissor.X,
-                                  gl.Draw.Scissor.Y, gl.Draw.Scissor.Width,
-                                  gl.Draw.Scissor.Height);
+        gl.Renderer->SetScissor (gl.Renderer, gl.Draw.Scissor.X,
+                                 gl.Draw.Scissor.Y, gl.Draw.Scissor.Width,
+                                 gl.Draw.Scissor.Height);
     else
-        PS2GL_ResetRendererScissor (gl.Renderer);
+        gl.Renderer->ResetScissor (gl.Renderer);
 
     for (int i = 0; i < gl.Draw.VertexCount; i += 3)
     {

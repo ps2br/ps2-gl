@@ -65,9 +65,10 @@ extern PS2GL_Context gl;
 
 /**
  * Initilazes the GL State.
+ * Should be initialized with an Renderer.
  * Every call to @PS2GL_Init should have it PS2GL_Shutdown at end of usage.
  */
-extern void PS2GL_Init (void);
+extern void PS2GL_Init (PS2GL_Renderer *);
 extern void PS2GL_Shutdown (void);
 
 #endif

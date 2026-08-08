@@ -56,5 +56,5 @@ void
 glClear (GLbitfield mask)
 {
     if (mask & GL_COLOR_BUFFER_BIT)
-        PS2GL_ClearRenderColor (gl.Renderer, gl.Draw.CurrentColor);
+        gl.Renderer->ClearColor (gl.Renderer, gl.Draw.CurrentColor);
 }

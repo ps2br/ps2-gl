@@ -91,17 +91,17 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
         psm = PS2GL_PSM_32;
     else if (format == GL_RGB)
         psm = PS2GL_PSM_24;
-    tex->ImplTexture = PS2GL_CreateImplTexture (width, height, psm,
-                                                (tex->MinFilter == GL_NEAREST)
-                                                    ? PS2GL_FILTER_NEAREST
-                                                    : PS2GL_FILTER_LINEAR);
+    tex->ImplTexture = gl.Renderer->CreateImplTexture (
+        width, height, psm,
+        (tex->MinFilter == GL_NEAREST) ? PS2GL_FILTER_NEAREST
+                                       : PS2GL_FILTER_LINEAR);
 
-    void *mem = PS2GL_AllocateImplTextureMem (tex->ImplTexture);
-    u32 size = PS2GL_GetImplTextureSize (tex->ImplTexture);
+    void *mem = gl.Renderer->AllocateImplTextureMem (tex->ImplTexture);
+    u32 size = gl.Renderer->GetImplTextureSize (tex->ImplTexture);
     if (type == GL_UNSIGNED_BYTE)
         memcpy (mem, pixels, size);
 
-    PS2GL_FinishImplTextureCreation (gl.Renderer, tex->ImplTexture);
+    gl.Renderer->FinishImplTextureCreation (gl.Renderer, tex->ImplTexture);
 }
 
 void
@@ -116,18 +116,20 @@ glTexParameteri (GLenum target, GLenum pname, GLint param)
     case GL_TEXTURE_MIN_FILTER:
         tex->MinFilter = param;
         if (param == GL_NEAREST)
-            PS2GL_SetImplTextureFilter (tex->ImplTexture,
-                                        PS2GL_FILTER_NEAREST);
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_NEAREST);
         else
-            PS2GL_SetImplTextureFilter (tex->ImplTexture, PS2GL_FILTER_LINEAR);
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_LINEAR);
         break;
     case GL_TEXTURE_MAG_FILTER:
         tex->MagFilter = param;
         if (param == GL_NEAREST)
-            PS2GL_SetImplTextureFilter (tex->ImplTexture,
-                                        PS2GL_FILTER_NEAREST);
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_NEAREST);
         else
-            PS2GL_SetImplTextureFilter (tex->ImplTexture, PS2GL_FILTER_LINEAR);
+            gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
+                                               PS2GL_FILTER_LINEAR);
         break;
     };
 }
