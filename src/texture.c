@@ -19,6 +19,7 @@
 
 #include "ps2gl/texture.h"
 
+#include <GL/gl.h>
 #include <stdlib.h>
 #include <tamtypes.h>
 
@@ -40,6 +41,23 @@ glGenTextures (GLsizei n, GLuint *textures)
             }
         }
     }
+}
+
+void
+glTexCoord2f (GLfloat u, GLfloat v)
+{
+    gl.Tex.CurrentTexCoords[0] = u;
+    gl.Tex.CurrentTexCoords[1] = v;
+}
+
+void
+glTexCoordPointer (GLint size, GLenum type, GLsizei stride,
+                   const GLvoid *pointer)
+{
+    gl.Tex.CurrentTexCoordsArray.Size = size;
+    gl.Tex.CurrentTexCoordsArray.Type = type;
+    gl.Tex.CurrentTexCoordsArray.Stride = stride;
+    gl.Tex.CurrentTexCoordsArray.Pointer = pointer;
 }
 
 void
@@ -80,7 +98,16 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
               const GLvoid *pixels)
 {
     if (gl.Tex.BoundTexture == 0)
+    {
+        gl.CurrentError = GL_INVALID_VALUE;
         return;
+    }
+
+    if (target != GL_TEXTURE_2D)
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
 
     PS2GL_Texture *tex = &gl.Tex.Textures[gl.Tex.BoundTexture];
     tex->Width = width;
@@ -91,6 +118,12 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
         psm = PS2GL_PSM_32;
     else if (format == GL_RGB)
         psm = PS2GL_PSM_24;
+    else
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+
     tex->ImplTexture = gl.Renderer->CreateImplTexture (
         width, height, psm,
         (tex->MinFilter == GL_NEAREST) ? PS2GL_FILTER_NEAREST
@@ -98,8 +131,14 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
 
     void *mem = gl.Renderer->AllocateImplTextureMem (tex->ImplTexture);
     u32 size = gl.Renderer->GetImplTextureSize (tex->ImplTexture);
+
     if (type == GL_UNSIGNED_BYTE)
         memcpy (mem, pixels, size);
+    else
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
 
     gl.Renderer->FinishImplTextureCreation (gl.Renderer, tex->ImplTexture);
 }
@@ -108,7 +147,10 @@ void
 glTexParameteri (GLenum target, GLenum pname, GLint param)
 {
     if (gl.Tex.BoundTexture == 0)
+    {
+        gl.CurrentError = GL_INVALID_VALUE;
         return;
+    }
 
     PS2GL_Texture *tex = &gl.Tex.Textures[gl.Tex.BoundTexture];
     switch (pname)
@@ -131,22 +173,8 @@ glTexParameteri (GLenum target, GLenum pname, GLint param)
             gl.Renderer->SetImplTextureFilter (tex->ImplTexture,
                                                PS2GL_FILTER_LINEAR);
         break;
+    default:
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
     };
-}
-
-void
-glTexCoord2f (GLfloat u, GLfloat v)
-{
-    gl.Tex.CurrentTexCoords[0] = u;
-    gl.Tex.CurrentTexCoords[1] = v;
-}
-
-void
-glTexCoordPointer (GLint size, GLenum type, GLsizei stride,
-                   const GLvoid *pointer)
-{
-    gl.Tex.CurrentTexCoordsArray.Size = size;
-    gl.Tex.CurrentTexCoordsArray.Type = type;
-    gl.Tex.CurrentTexCoordsArray.Stride = stride;
-    gl.Tex.CurrentTexCoordsArray.Pointer = pointer;
 }
