@@ -40,8 +40,8 @@ glBegin (GLenum mode)
 
 static void
 PS2GL_DrawFilledTriangleWithTexture (PS2GL_Vertex *va, PS2GL_Vertex *vb,
-                                   PS2GL_Vertex *vc, PS2GL_3DCoords *a,
-                                   PS2GL_3DCoords *b, PS2GL_3DCoords *c)
+                                     PS2GL_Vertex *vc, PS2GL_3DCoords *a,
+                                     PS2GL_3DCoords *b, PS2GL_3DCoords *c)
 {
     GSTEXTURE *texture = &gl.Tex.Textures[gl.Tex.BoundTexture].GTexture;
 
@@ -62,11 +62,11 @@ PS2GL_DrawFilledTriangleWithTexture (PS2GL_Vertex *va, PS2GL_Vertex *vb,
 
         texture,
 
-        *a[0], *a[1], *a[2], tex_a[0], tex_a[1],
+        (*a)[0], (*a)[1], (*a)[2], tex_a[0], tex_a[1],
 
-        *b[0], *b[1], *b[2], tex_b[0], tex_b[1],
+        (*b)[0], (*b)[1], (*b)[2], tex_b[0], tex_b[1],
 
-        *c[0], *c[1], *c[2], tex_c[0], tex_c[1],
+        (*c)[0], (*c)[1], (*c)[2], tex_c[0], tex_c[1],
 
         GS_SETREG_RGBAQ (COLOR8 (va->Color[0]), COLOR8 (va->Color[1]),
                          COLOR8 (va->Color[2]), COLOR8 (va->Color[3]), 0),
@@ -80,7 +80,8 @@ PS2GL_DrawFilledTriangleWithTexture (PS2GL_Vertex *va, PS2GL_Vertex *vb,
 
 static void
 PS2GL_DrawFilledTriangle (PS2GL_Vertex *va, PS2GL_Vertex *vb, PS2GL_Vertex *vc,
-                        PS2GL_3DCoords *a, PS2GL_3DCoords *b, PS2GL_3DCoords *c)
+                          PS2GL_3DCoords *a, PS2GL_3DCoords *b,
+                          PS2GL_3DCoords *c)
 {
     /** with texture */
     if (gl.Caps.Texture2D && gl.Tex.BoundTexture != 0)
@@ -93,7 +94,8 @@ PS2GL_DrawFilledTriangle (PS2GL_Vertex *va, PS2GL_Vertex *vb, PS2GL_Vertex *vc,
     gsKit_prim_triangle_gouraud_3d (
         gl.Gs,
 
-        *a[0], *a[1], *a[2], *b[0], *b[2], *b[2], *c[0], *c[1], *c[2],
+        (*a)[0], (*a)[1], (*a)[2], (*a)[0], (*b)[1], *b[2], *c[0], (*c)[1],
+        (*c)[2],
 
         GS_SETREG_RGBAQ (COLOR8 (va->Color[0]), COLOR8 (va->Color[1]),
                          COLOR8 (va->Color[2]), COLOR8 (va->Color[3]), 0),
@@ -107,8 +109,8 @@ PS2GL_DrawFilledTriangle (PS2GL_Vertex *va, PS2GL_Vertex *vb, PS2GL_Vertex *vc,
 
 static void
 PS2GL_DrawTriangle (PS2GL_Vertex *va, PS2GL_Vertex *vb, PS2GL_Vertex *vc,
-                  PS2GL_3DCoords *a, PS2GL_3DCoords *b, PS2GL_3DCoords *c,
-                  GLenum polygon_mode)
+                    PS2GL_3DCoords *a, PS2GL_3DCoords *b, PS2GL_3DCoords *c,
+                    GLenum polygon_mode)
 {
     if (polygon_mode == GL_FILL)
     {
@@ -176,12 +178,12 @@ glEnd (void)
         PS2GL_3DCoords _b;
         PS2GL_3DCoords _c;
 
-        PS2GL_TransformVertex (a->Coords[0], a->Coords[1], a->Coords[2], &_a[0],
-                             &_a[2], &_a[2]);
-        PS2GL_TransformVertex (b->Coords[0], b->Coords[1], b->Coords[2], &_b[0],
-                             &_b[1], &_b[2]);
-        PS2GL_TransformVertex (c->Coords[0], c->Coords[1], c->Coords[2], &_c[0],
-                             &_c[1], &_c[2]);
+        PS2GL_TransformVertex (a->Coords[0], a->Coords[1], a->Coords[2],
+                               &_a[0], &_a[1], &_a[2]);
+        PS2GL_TransformVertex (b->Coords[0], b->Coords[1], b->Coords[2],
+                               &_b[0], &_b[1], &_b[2]);
+        PS2GL_TransformVertex (c->Coords[0], c->Coords[1], c->Coords[2],
+                               &_c[0], &_c[1], &_c[2]);
 
         _a[0] = (_a[0] + 1.0f) * 0.5f * gl.ViewportWidth;
         _a[1] = (1.0f - _a[1]) * 0.5f * gl.ViewportHeight;
