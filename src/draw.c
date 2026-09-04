@@ -44,11 +44,13 @@ PS2GL_DrawTriangle (PS2GL_Vertex *a, PS2GL_Vertex *b, PS2GL_Vertex *c,
         if (gl.Caps.Texture2D && gl.Tex.BoundTexture != 0)
         {
             PS2GL_Texture *texture = &gl.Tex.Textures[gl.Tex.BoundTexture];
-            gl.Renderer->DrawFilledTexturedTriangle (gl.Renderer, a, b, c,
-                                                     texture->ImplTexture);
+            gl.Renderer->DrawFilledTexturedTriangle (
+                gl.Renderer, gl.Draw.CurrentShadeModel, a, b, c,
+                texture->ImplTexture);
             return;
         }
-        gl.Renderer->DrawFilledTriangle (gl.Renderer, a, b, c);
+        gl.Renderer->DrawFilledTriangle (gl.Renderer,
+                                         gl.Draw.CurrentShadeModel, a, b, c);
         return;
     }
 

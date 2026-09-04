@@ -52,14 +52,14 @@
     - [X] glVertexPointer
 
     - [ ] glDepthFunc
-    - [ ] glDepthMask
+    - [X] glDepthMask
     - [ ] glBlendFunc
     - [ ] glCullFace
     - [ ] glColorMask
     - [ ] glScissor
     - [X] glGetString
     - [X] glHint
-    - [ ] glShadeModel
+    - [X] glShadeModel
     - [ ] glClearDepth
     - [ ] glPixelStorei
     

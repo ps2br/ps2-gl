@@ -265,3 +265,15 @@ glDepthMask (GLboolean flag)
 {
     gl.Caps.DepthBufferEnable = flag;
 }
+
+void
+glShadeModel (GLenum mode)
+{
+    if (mode != GL_SMOOTH && mode != GL_FLAT)
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+
+    gl.Draw.CurrentShadeModel = mode;
+}

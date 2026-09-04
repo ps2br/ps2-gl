@@ -168,29 +168,45 @@ GSKit_SetImplTextureFilter (PS2GL_ImplTexture *self,
 #define COLOR8(x) ((u8)(fminf (fmaxf ((x), 0.0f), 1.0f) * 255.0f))
 
 static void
-GSKit_DrawFilledTriangle (PS2GL_Renderer *self, PS2GL_Vertex *a,
-                          PS2GL_Vertex *b, PS2GL_Vertex *c)
+GSKit_DrawFilledTriangle (PS2GL_Renderer *self, GLenum shadeModel,
+                          PS2GL_Vertex *a, PS2GL_Vertex *b, PS2GL_Vertex *c)
 {
-    gsKit_prim_triangle_gouraud_3d (
-        self->Platform->Gs,
+    if (shadeModel == GL_SMOOTH)
+    {
+        gsKit_prim_triangle_gouraud_3d (
+            self->Platform->Gs,
 
-        a->Coords[0], a->Coords[1], a->Coords[2], b->Coords[0], b->Coords[1],
-        b->Coords[2], c->Coords[0], c->Coords[1], c->Coords[2],
+            a->Coords[0], a->Coords[1], a->Coords[2], b->Coords[0],
+            b->Coords[1], b->Coords[2], c->Coords[0], c->Coords[1],
+            c->Coords[2],
 
-        GS_SETREG_RGBAQ (COLOR8 (a->Color[0]), COLOR8 (a->Color[1]),
-                         COLOR8 (a->Color[2]), COLOR8 (a->Color[3]), 0),
+            GS_SETREG_RGBAQ (COLOR8 (a->Color[0]), COLOR8 (a->Color[1]),
+                             COLOR8 (a->Color[2]), COLOR8 (a->Color[3]), 0),
 
-        GS_SETREG_RGBAQ (COLOR8 (b->Color[0]), COLOR8 (b->Color[1]),
-                         COLOR8 (b->Color[2]), COLOR8 (b->Color[3]), 0),
+            GS_SETREG_RGBAQ (COLOR8 (b->Color[0]), COLOR8 (b->Color[1]),
+                             COLOR8 (b->Color[2]), COLOR8 (b->Color[3]), 0),
 
-        GS_SETREG_RGBAQ (COLOR8 (c->Color[0]), COLOR8 (c->Color[1]),
-                         COLOR8 (c->Color[2]), COLOR8 (c->Color[3]), 0));
+            GS_SETREG_RGBAQ (COLOR8 (c->Color[0]), COLOR8 (c->Color[1]),
+                             COLOR8 (c->Color[2]), COLOR8 (c->Color[3]), 0));
+    }
+    else if (shadeModel == GL_FLAT)
+    {
+        gsKit_prim_triangle_3d (
+            self->Platform->Gs,
+
+            a->Coords[0], a->Coords[1], a->Coords[2], b->Coords[0],
+            b->Coords[1], b->Coords[2], c->Coords[0], c->Coords[1],
+            c->Coords[2],
+
+            GS_SETREG_RGBAQ (COLOR8 (a->Color[0]), COLOR8 (a->Color[1]),
+                             COLOR8 (a->Color[2]), COLOR8 (a->Color[3]), 0));
+    }
 }
 
 static void
-GSKit_DrawFilledTexturedTriangle (PS2GL_Renderer *self, PS2GL_Vertex *a,
-                                  PS2GL_Vertex *b, PS2GL_Vertex *c,
-                                  PS2GL_ImplTexture *texture)
+GSKit_DrawFilledTexturedTriangle (PS2GL_Renderer *self, GLenum shadeModel,
+                                  PS2GL_Vertex *a, PS2GL_Vertex *b,
+                                  PS2GL_Vertex *c, PS2GL_ImplTexture *texture)
 {
     float au = a->TexCoords[0] * texture->Gs.Width;
     float av = a->TexCoords[1] * texture->Gs.Height;
@@ -200,6 +216,19 @@ GSKit_DrawFilledTexturedTriangle (PS2GL_Renderer *self, PS2GL_Vertex *a,
 
     float cu = c->TexCoords[0] * texture->Gs.Width;
     float cv = c->TexCoords[1] * texture->Gs.Height;
+
+    if (shadeModel == GL_FLAT)
+    {
+        a->Color[0] = c->Color[0];
+        a->Color[1] = c->Color[1];
+        a->Color[2] = c->Color[2];
+        a->Color[3] = c->Color[3];
+
+        b->Color[0] = c->Color[0];
+        b->Color[1] = c->Color[1];
+        b->Color[2] = c->Color[2];
+        b->Color[3] = c->Color[3];
+    }
 
     gsKit_prim_triangle_goraud_texture_3d (
         self->Platform->Gs,

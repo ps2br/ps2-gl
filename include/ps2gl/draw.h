@@ -47,6 +47,7 @@ typedef struct ps2_draw_context_t
     PS2GL_3DCoords CurrentNormal;
 
     GLenum CurrentMode;
+    GLenum CurrentShadeModel;
 
     GLfloat LineWidth;
     GLfloat PointSize;

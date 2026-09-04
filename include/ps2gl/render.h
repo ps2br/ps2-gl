@@ -83,11 +83,13 @@ struct ps2gl_renderer_t
 
     void (*SetImplTextureFilter) (PS2GL_ImplTexture *, PS2GL_TextureFilter);
 
-    void (*DrawFilledTriangle) (PS2GL_Renderer *, PS2GL_Vertex *a,
-                                PS2GL_Vertex *b, PS2GL_Vertex *c);
+    void (*DrawFilledTriangle) (PS2GL_Renderer *, GLenum shadeModel,
+                                PS2GL_Vertex *a, PS2GL_Vertex *b,
+                                PS2GL_Vertex *c);
 
-    void (*DrawFilledTexturedTriangle) (PS2GL_Renderer *, PS2GL_Vertex *a,
-                                        PS2GL_Vertex *b, PS2GL_Vertex *c,
+    void (*DrawFilledTexturedTriangle) (PS2GL_Renderer *, GLenum shadeModel,
+                                        PS2GL_Vertex *a, PS2GL_Vertex *b,
+                                        PS2GL_Vertex *c,
                                         PS2GL_ImplTexture *texture);
 };
 

@@ -93,7 +93,7 @@ glBindTexture (GLenum target, GLuint texture)
 }
 
 void
-glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
+glTexImage2D (GLenum target, GLint level, GLint internal_format, GLsizei width,
               GLsizei height, GLint border, GLenum format, GLenum type,
               const GLvoid *pixels)
 {
@@ -103,7 +103,15 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
         return;
     }
 
+    // TODO: support other texture types
     if (target != GL_TEXTURE_2D)
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+
+    // TODO: support differents formats for Storage
+    if (format != internal_format)
     {
         gl.CurrentError = GL_INVALID_ENUM;
         return;
@@ -141,6 +149,31 @@ glTexImage2D (GLenum target, GLint level, GLint internalFormat, GLsizei width,
     }
 
     gl.Renderer->FinishImplTextureCreation (gl.Renderer, tex->ImplTexture);
+}
+
+void
+glTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset,
+                 GLsizei width, GLsizei height, GLenum format, GLenum type,
+                 const GLvoid *pixels)
+{
+    if (gl.Tex.BoundTexture == 0)
+    {
+        gl.CurrentError = GL_INVALID_VALUE;
+        return;
+    }
+
+    if (target != GL_TEXTURE_2D)
+    {
+        gl.CurrentError = GL_INVALID_ENUM;
+        return;
+    }
+
+    PS2GL_Texture *tex = &gl.Tex.Textures[gl.Tex.BoundTexture];
+
+    if (tex->Width < width || tex->Height < height)
+    {
+        
+    }
 }
 
 void
