@@ -259,3 +259,9 @@ glScissor (GLint x, GLint y, GLsizei width, GLsizei height)
     gl.Draw.Scissor.Width = width;
     gl.Draw.Scissor.Height = height;
 }
+
+void
+glDepthMask (GLboolean flag)
+{
+    gl.Caps.DepthBufferEnable = flag;
+}

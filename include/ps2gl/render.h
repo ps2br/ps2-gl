@@ -53,13 +53,13 @@ struct ps2gl_renderer_t
 {
     PS2GL_RendererPlatform *Platform;
 
-    void (*ClearColor) (PS2GL_Renderer *, PS2GL_Color);
     GLsizei (*GetWidth) (PS2GL_Renderer *);
     GLsizei (*GetHeight) (PS2GL_Renderer *);
+    void (*ClearColor) (PS2GL_Renderer *, PS2GL_Color);
+    void (*SwapBuffers) (PS2GL_Renderer *);
     void (*SetScissor) (PS2GL_Renderer *, GLint x, GLint y, GLsizei width,
                         GLsizei height);
-    void (*SwapBuffers) (PS2GL_Renderer *);
-
+    void (*SetDepthMask) (PS2GL_Renderer *, GLboolean flag);
     void (*ResetScissor) (PS2GL_Renderer *);
     void (*DeInit) (PS2GL_Renderer *);
 

@@ -95,6 +95,8 @@ glEnd (void)
     else
         gl.Renderer->ResetScissor (gl.Renderer);
 
+    gl.Renderer->SetDepthMask (gl.Renderer, gl.Caps.DepthBufferEnable);
+
     for (int i = 0; i < gl.Draw.VertexCount; i += 3)
     {
         PS2GL_Vertex va = gl.Draw.Vertices[i + 0];

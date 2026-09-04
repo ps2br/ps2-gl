@@ -23,6 +23,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include <GL/gl.h>
 #include <dmaKit.h>
 #include <gsKit.h>
 
@@ -46,6 +47,21 @@ GSKit_GetHeight (PS2GL_Renderer *self)
 }
 
 static void
+GSKit_ClearColor (PS2GL_Renderer *self, PS2GL_Color color)
+{
+    gsKit_clear (self->Platform->Gs,
+                 GS_SETREG_RGBA (color[0] * 255, color[1] * 255,
+                                 color[2] * 255, color[3] * 255));
+}
+
+static void
+GSKit_SwapBuffers (PS2GL_Renderer *self)
+{
+    gsKit_sync_flip (self->Platform->Gs);
+    gsKit_queue_exec (self->Platform->Gs);
+}
+
+static void
 GSKit_SetScissor (PS2GL_Renderer *self, GLint x, GLint y, GLsizei width,
                   GLsizei height)
 {
@@ -61,18 +77,10 @@ GSKit_ResetScissor (PS2GL_Renderer *self)
 }
 
 static void
-GSKit_ClearColor (PS2GL_Renderer *self, PS2GL_Color color)
+GSKit_SetDepthMask (PS2GL_Renderer *self, GLboolean flag)
 {
-    gsKit_clear (self->Platform->Gs,
-                 GS_SETREG_RGBA (color[0] * 255, color[1] * 255,
-                                 color[2] * 255, color[3] * 255));
-}
-
-static void
-GSKit_SwapBuffers (PS2GL_Renderer *self)
-{
-    gsKit_sync_flip (self->Platform->Gs);
-    gsKit_queue_exec (self->Platform->Gs);
+    self->Platform->Gs->ZBuffering
+        = (flag == GL_TRUE) ? GS_SETTING_ON : GS_SETTING_OFF;
 }
 
 static void
@@ -226,12 +234,13 @@ PS2GL_InitGSKitRenderer (void)
                  D_CTRL_STD_OFF, D_CTRL_RCYC_8, 1 << DMA_CHANNEL_GIF);
     dmaKit_chan_init (DMA_CHANNEL_GIF);
 
-    self->ClearColor = GSKit_ClearColor;
     self->GetWidth = GSKit_GetWidth;
     self->GetHeight = GSKit_GetHeight;
-    self->SetScissor = GSKit_SetScissor;
     self->SwapBuffers = GSKit_SwapBuffers;
+    self->ClearColor = GSKit_ClearColor;
+    self->SetScissor = GSKit_SetScissor;
     self->ResetScissor = GSKit_ResetScissor;
+    self->SetDepthMask = GSKit_SetDepthMask;
     self->DeInit = GSKit_DeInit;
 
     self->CreateImplTexture = GSKit_CreateImplTexture;
