@@ -36,13 +36,13 @@ struct ps2gl_renderer_platform_t
 static GLsizei
 GSKit_GetWidth (PS2GL_Renderer *self)
 {
-    return self->platform->Gs->Width;
+    return self->Platform->Gs->Width;
 }
 
 static GLsizei
 GSKit_GetHeight (PS2GL_Renderer *self)
 {
-    return self->platform->Gs->Height;
+    return self->Platform->Gs->Height;
 }
 
 static void
@@ -50,20 +50,20 @@ GSKit_SetScissor (PS2GL_Renderer *self, GLint x, GLint y, GLsizei width,
                   GLsizei height)
 {
     gsKit_set_scissor (
-        self->platform->Gs,
+        self->Platform->Gs,
         GS_SETREG_SCISSOR (x, y, x + width - 1, y + height - 1));
 }
 
 static void
 GSKit_ResetScissor (PS2GL_Renderer *self)
 {
-    gsKit_set_scissor (self->platform->Gs, GS_SCISSOR_RESET);
+    gsKit_set_scissor (self->Platform->Gs, GS_SCISSOR_RESET);
 }
 
 static void
 GSKit_ClearColor (PS2GL_Renderer *self, PS2GL_Color color)
 {
-    gsKit_clear (self->platform->Gs,
+    gsKit_clear (self->Platform->Gs,
                  GS_SETREG_RGBA (color[0] * 255, color[1] * 255,
                                  color[2] * 255, color[3] * 255));
 }
@@ -71,15 +71,15 @@ GSKit_ClearColor (PS2GL_Renderer *self, PS2GL_Color color)
 static void
 GSKit_SwapBuffers (PS2GL_Renderer *self)
 {
-    gsKit_sync_flip (self->platform->Gs);
-    gsKit_queue_exec (self->platform->Gs);
+    gsKit_sync_flip (self->Platform->Gs);
+    gsKit_queue_exec (self->Platform->Gs);
 }
 
 static void
 GSKit_DeInit (PS2GL_Renderer *self)
 {
-    gsKit_deinit_global (self->platform->Gs);
-    free (self->platform);
+    gsKit_deinit_global (self->Platform->Gs);
+    free (self->Platform);
     free (self);
 }
 
@@ -147,7 +147,7 @@ static void
 GSKit_FinishImplTextureCreation (PS2GL_Renderer *self,
                                  PS2GL_ImplTexture *texture)
 {
-    gsKit_texture_finish (self->platform->Gs, &texture->Gs);
+    gsKit_texture_finish (self->Platform->Gs, &texture->Gs);
 }
 
 static void
@@ -164,7 +164,7 @@ GSKit_DrawFilledTriangle (PS2GL_Renderer *self, PS2GL_Vertex *a,
                           PS2GL_Vertex *b, PS2GL_Vertex *c)
 {
     gsKit_prim_triangle_gouraud_3d (
-        self->platform->Gs,
+        self->Platform->Gs,
 
         a->Coords[0], a->Coords[1], a->Coords[2], b->Coords[0], b->Coords[1],
         b->Coords[2], c->Coords[0], c->Coords[1], c->Coords[2],
@@ -194,7 +194,7 @@ GSKit_DrawFilledTexturedTriangle (PS2GL_Renderer *self, PS2GL_Vertex *a,
     float cv = c->TexCoords[1] * texture->Gs.Height;
 
     gsKit_prim_triangle_goraud_texture_3d (
-        self->platform->Gs,
+        self->Platform->Gs,
 
         &texture->Gs,
 
@@ -218,10 +218,10 @@ PS2GL_Renderer *
 PS2GL_InitGSKitRenderer (void)
 {
     PS2GL_Renderer *self = calloc (1, sizeof *self);
-    self->platform = calloc (1, sizeof *self->platform);
+    self->Platform = calloc (1, sizeof *self->Platform);
 
-    self->platform->Gs = gsKit_init_global ();
-    gsKit_init_screen (self->platform->Gs);
+    self->Platform->Gs = gsKit_init_global ();
+    gsKit_init_screen (self->Platform->Gs);
     dmaKit_init (D_CTRL_RELE_OFF, D_CTRL_MFD_OFF, D_CTRL_STS_UNSPEC,
                  D_CTRL_STD_OFF, D_CTRL_RCYC_8, 1 << DMA_CHANNEL_GIF);
     dmaKit_chan_init (DMA_CHANNEL_GIF);

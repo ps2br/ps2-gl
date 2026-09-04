@@ -51,7 +51,7 @@ typedef enum ps2gl_texture_filter_t
 
 struct ps2gl_renderer_t
 {
-    PS2GL_RendererPlatform *platform;
+    PS2GL_RendererPlatform *Platform;
 
     void (*ClearColor) (PS2GL_Renderer *, PS2GL_Color);
     GLsizei (*GetWidth) (PS2GL_Renderer *);
